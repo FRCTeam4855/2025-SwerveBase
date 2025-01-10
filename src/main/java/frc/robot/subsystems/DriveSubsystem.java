@@ -19,7 +19,8 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.kauailabs.navx.frc.AHRS;
+import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PathPlannerLogging;
@@ -53,7 +54,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // The gyro sensor
   //private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
-  private final AHRS m_gyro = new AHRS();
+  private final AHRS m_gyro = new AHRS(NavXComType.kUSB1);
  
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
