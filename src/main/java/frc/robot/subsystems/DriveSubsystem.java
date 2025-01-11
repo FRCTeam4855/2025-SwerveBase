@@ -12,25 +12,38 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
+import frc.robot.Configs;
+import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PathPlannerLogging;
-import com.pathplanner.lib.util.ReplanningConfig;
 
+import java.io.ObjectInputFilter.Config;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+// import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PathPlannerLogging;
+// import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import frc.robot.Configs;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 
 public class DriveSubsystem extends SubsystemBase {
-
-
+  
+  ModuleConfig moduleConfig = new ModuleConfig(ModuleConstants.kWheelDiameterMeters / 2, DriveConstants.kMaxSpeedMetersPerSecond, 
+  , 1.1, null, ModuleConstants.kDrivingMotorCurrentLimit);
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       DriveConstants.kFrontLeftDrivingCanId,
@@ -80,17 +93,23 @@ public class DriveSubsystem extends SubsystemBase {
   
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    
+    //RobotConfig config = new RobotConfig(60, 6.883, null, DriveConstants.kTrackWidth);
+  
     SmartDashboard.putData("Field", m_field); //4855
     m_gyro.reset();
   
-// Configure AutoBuilder
-      AutoBuilder.configureHolonomic(
+      AutoBuilder.configure(
         this::getPose, 
         this::resetPose, 
         this::getSpeeds, 
-        this::driveRobotRelative, 
-        new HolonomicPathFollowerConfig(AutoConstants.kMaxSpeedMetersPerSecond, DriveConstants.kDriveRadius, new ReplanningConfig(true, true)),        
-        () -> {
+            (speeds, feedforwards) -> driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                    new PIDConstants(ModuleConstants.kDrivingP, ModuleConstants.kDrivingI, ModuleConstants.kDrivingD), // Translation PID constants
+                    new PIDConstants(ModuleConstants.kTurningP, ModuleConstants.kTurningI, ModuleConstants.kTurningD) // Rotation PID constants
+            ),
+            Configs.MAXSwerveModule.driveConfig, // The robot configuration
+            () -> {
             // Boolean supplier that controls when the path will be mirrored for the red alliance
             // This will flip the path being followed to the red side of the field.
             // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
@@ -104,6 +123,37 @@ public class DriveSubsystem extends SubsystemBase {
         this
       );
     
+    // try{
+    //   RobotConfig config = RobotConfig.fromGUISettings();
+
+    //   // Configure AutoBuilder
+    //   AutoBuilder.configure(
+    //     this::getPose, 
+    //     this::resetPose, 
+    //     this::getSpeeds, 
+    //     this::driveRobotRelative, 
+    //     new PPHolonomicDriveController(
+
+    //       ModuleConstants.translationConstants,
+    //       ModuleConstants.rotationConstants
+    //     ),
+    //     config,
+    //     () -> {
+    //         // Boolean supplier that controls when the path will be mirrored for the red alliance
+    //         // This will flip the path being followed to the red side of the field.
+    //         // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+    //         var alliance = DriverStation.getAlliance();
+    //         if (alliance.isPresent()) {
+    //             return alliance.get() == DriverStation.Alliance.Red;
+    //         }
+    //         return false;
+    //     },
+    //     this
+    //   );
+    // }catch(Exception e){
+    //   DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", e.getStackTrace());
+    // }
 
     // Set up custom logging to add the current path to a field 2d widget
     PathPlannerLogging.setLogActivePathCallback((poses) -> m_field.getObject("path").setPoses(poses));

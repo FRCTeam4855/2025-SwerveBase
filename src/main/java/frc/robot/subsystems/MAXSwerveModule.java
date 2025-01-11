@@ -20,6 +20,7 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 
+import frc.robot.Configs;
 import frc.robot.Constants.ModuleConstants;
 
 public class MAXSwerveModule {
@@ -32,9 +33,6 @@ public class MAXSwerveModule {
   private final SparkClosedLoopController m_drivingPIDController;
   private final SparkClosedLoopController m_turningPIDController;
 
-  private SparkMaxConfig m_driveConfig;
-  private SparkMaxConfig m_turnConfig;
-
   private double m_chassisAngularOffset = 0;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
   /**
@@ -44,49 +42,21 @@ public class MAXSwerveModule {
    * Encoder.
    */
   public MAXSwerveModule(int drivingCANId, int turningCANId, double chassisAngularOffset) {
+
     m_drivingSparkMax = new SparkMax(drivingCANId, MotorType.kBrushless);
     m_turningSparkMax = new SparkMax(turningCANId, MotorType.kBrushless);
 
-
-    // Factory reset, so we get the SPARKS MAX to a known state before configuring
-    // them. This is useful in case a SPARK MAX is swapped out.
-
-    m_driveConfig = new SparkMaxConfig();
-    m_turnConfig = new SparkMaxConfig();
-
-    //DRIVE CONFIG
-
-    m_driveConfig.idleMode(ModuleConstants.kDrivingMotorIdleMode)
-      .smartCurrentLimit(ModuleConstants.kTurningMotorCurrentLimit);
-
-    m_driveConfig.encoder.positionConversionFactor(ModuleConstants.kDrivingEncoderPositionFactor)
-      .velocityConversionFactor(ModuleConstants.kDrivingEncoderVelocityFactor);
-
-    m_driveConfig.closedLoop.pidf(ModuleConstants.kDrivingP, ModuleConstants.kDrivingI, ModuleConstants.kDrivingD, ModuleConstants.kDrivingFF)
-      .outputRange(ModuleConstants.kDrivingMinOutput, ModuleConstants.kDrivingMaxOutput)
-      .feedbackSensor(FeedbackSensor.kPrimaryEncoder);
-
-    //TURNCONFIG
-    
-    m_turnConfig.inverted(ModuleConstants.kTurningEncoderInverted)
-      .idleMode(ModuleConstants.kDrivingMotorIdleMode)
-      .smartCurrentLimit(ModuleConstants.kTurningMotorCurrentLimit);
-
-    m_turnConfig.encoder.positionConversionFactor(ModuleConstants.kTurningEncoderPositionFactor)
-      .velocityConversionFactor(ModuleConstants.kTurningEncoderVelocityFactor);
-
-    m_turnConfig.closedLoop.pidf(ModuleConstants.kTurningP, ModuleConstants.kTurningI, ModuleConstants.kTurningD, ModuleConstants.kTurningFF)
-      .outputRange(ModuleConstants.kTurningMinOutput, ModuleConstants.kTurningMinOutput)
-      .feedbackSensor(FeedbackSensor.kPrimaryEncoder); //TODO make sure both feedback encoders are correct
-
     // Setup encoders and PID controllers for the driving and turning SPARKS MAX.
     m_drivingEncoder = m_drivingSparkMax.getEncoder();
-    m_turningEncoder = m_turningSparkMax.getAbsoluteEncoder(); //TODO figure out how to implement Type.kDutyCycle in parameters
+    m_turningEncoder = m_turningSparkMax.getAbsoluteEncoder(); 
+
     m_drivingPIDController = m_drivingSparkMax.getClosedLoopController();
     m_turningPIDController = m_turningSparkMax.getClosedLoopController();
 
-    m_drivingSparkMax.configure(m_driveConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-    m_turningSparkMax.configure(m_turnConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    m_drivingSparkMax.configure(Configs.MAXSwerveModule.driveConfig, ResetMode.kResetSafeParameters,
+    PersistMode.kPersistParameters);
+    m_turningSparkMax.configure(Configs.MAXSwerveModule.turnConfig, ResetMode.kResetSafeParameters,
+    PersistMode.kPersistParameters);
 
     m_chassisAngularOffset = chassisAngularOffset;
     m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
