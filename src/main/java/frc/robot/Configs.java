@@ -1,20 +1,8 @@
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
-import com.revrobotics.spark.SparkAbsoluteEncoder;
-import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.RelativeEncoder;
+
 import frc.robot.Constants.ModuleConstants;
 
 public final class Configs {
@@ -33,33 +21,35 @@ public final class Configs {
 
             driveConfig
                 .idleMode(ModuleConstants.kDrivingMotorIdleMode)
-                .smartCurrentLimit(ModuleConstants.kTurningMotorCurrentLimit);
+                .smartCurrentLimit(ModuleConstants.kDrivingMotorCurrentLimit);
 
             driveConfig.encoder
                 .positionConversionFactor(drivingFactor)
                 .velocityConversionFactor(drivingFactor / 60);
 
             driveConfig.closedLoop
+                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                 .pid(ModuleConstants.kDrivingP, ModuleConstants.kDrivingI, ModuleConstants.kDrivingD)
                 .velocityFF(drivingVelocityFeedForward)
-                .outputRange(ModuleConstants.kDrivingMinOutput, ModuleConstants.kDrivingMaxOutput)
-                .feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+                .outputRange(ModuleConstants.kDrivingMinOutput, ModuleConstants.kDrivingMaxOutput);
 
              //TURN CONFIG
 
             turnConfig
-                .inverted(ModuleConstants.kTurningEncoderInverted)
                 .idleMode(ModuleConstants.kDrivingMotorIdleMode)
                 .smartCurrentLimit(ModuleConstants.kTurningMotorCurrentLimit);
 
-            turnConfig.encoder
+            turnConfig.absoluteEncoder
+                .inverted(false)
                 .positionConversionFactor(turningFactor)
                 .velocityConversionFactor(turningFactor / 60);
 
             turnConfig.closedLoop
-                .pidf(ModuleConstants.kTurningP, ModuleConstants.kTurningI, ModuleConstants.kTurningD, ModuleConstants.kTurningFF)
-                .outputRange(ModuleConstants.kTurningMinOutput, ModuleConstants.kTurningMinOutput)
-                .feedbackSensor(FeedbackSensor.kPrimaryEncoder); 
+                .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+                .pid(ModuleConstants.kTurningP, ModuleConstants.kTurningI, ModuleConstants.kTurningD)
+                .outputRange(ModuleConstants.kTurningMinOutput, ModuleConstants.kTurningMaxOutput)
+                .positionWrappingEnabled(true)
+                .positionWrappingInputRange(0, turningFactor);
 
         }
     }
