@@ -10,9 +10,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-
+import frc.robot.Constants.LightsConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LightsSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -30,6 +31,7 @@ public class RobotContainer {
 
     // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    private final LightsSubsystem m_lights = new LightsSubsystem();
     //private final Limelight m_limelight = new Limelight();
    
 
@@ -38,7 +40,6 @@ public class RobotContainer {
     Joystick m_rightDriverController = new Joystick(OIConstants.kRightDriverControllerPort);
     // The Operator Controller
     CommandXboxController m_operatorController1 = new CommandXboxController(OIConstants.kOperatorControllerPort1);
-    //XboxController m_operatorController2 = new XboxController(OIConstants.kOperatorControllerPort2);
 
     public static boolean fieldOriented = false;
     public double speedMultiplier = OIConstants.kSpeedMultiplierDefault;
@@ -112,7 +113,25 @@ public class RobotContainer {
         new JoystickButton(m_leftDriverController, OIConstants.kJS_Trigger)  //Precise Driving Mode clear
             .whileFalse(new InstantCommand(
                 () -> speedMultiplier=OIConstants.kSpeedMultiplierDefault));
+        
+        // Operator Controls
 
+        m_operatorController1.a()
+            .whileTrue(new RunCommand(
+                () -> m_lights.setLEDs(LightsConstants.GREEN),
+                m_lights));
+        m_operatorController1.x()
+            .whileTrue(new RunCommand(
+                () -> m_lights.setLEDs(LightsConstants.RED),
+                m_lights));
+        m_operatorController1.b()
+            .whileTrue(new RunCommand(
+                () -> m_lights.setLEDs(LightsConstants.VIOLET),
+                m_lights));
+        m_operatorController1.y()
+            .whileTrue(new RunCommand(
+                () -> m_lights.setLEDs(LightsConstants.GOLD),
+                m_lights));
 
 ////    Operator Controls 
  
