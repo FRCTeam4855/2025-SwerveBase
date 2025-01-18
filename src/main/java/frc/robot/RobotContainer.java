@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -14,6 +15,8 @@ import frc.robot.Constants.LightsConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
+import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -32,8 +35,11 @@ public class RobotContainer {
     // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final LightsSubsystem m_lights = new LightsSubsystem();
+      // Compressor connected to a PH with a default CAN ID (1)
+    private final Compressor m_compressor = new Compressor(19, PneumaticsModuleType.REVPH);
     //private final Limelight m_limelight = new Limelight();
-   
+   //m_compressor.disable();
+
 
     // The driver's controller
     Joystick m_leftDriverController = new Joystick(OIConstants.kLeftDriverControllerPort);
