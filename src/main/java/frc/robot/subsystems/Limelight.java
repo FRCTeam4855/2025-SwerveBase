@@ -84,7 +84,6 @@ public class Limelight extends SubsystemBase {
     */
     NetworkTableEntry vEntry = table.getEntry("tv"); //Whether the limelight has any valid targets (0 or 1)
     
-   
     double tx = xEntry.getDouble(0.0); // Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
     double ty = yEntry.getDouble(0.0); // Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
     double ta = aEntry.getDouble(0.0); // Target Area (0% of image to 100% of image)
@@ -125,9 +124,9 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putBoolean("Limelight in AprilTag Mode", isLimelightOnAprilTagMode());
   }
 
-
   public class doesLimelightHaveTarget {
   }
+
 
   // public void pipelineButtons() {
   //   if (XboxController.getRawButtonPressed(button)) {

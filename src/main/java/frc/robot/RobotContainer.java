@@ -12,8 +12,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.LightsConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.DriveWithAprilTagCommand;
 import frc.robot.subsystems.DriveSubsystem;
+<<<<<<< Updated upstream
 import frc.robot.subsystems.LightsSubsystem;
+=======
+import frc.robot.subsystems.Limelight;
+>>>>>>> Stashed changes
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -31,8 +36,12 @@ public class RobotContainer {
 
     // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+<<<<<<< Updated upstream
     private final LightsSubsystem m_lights = new LightsSubsystem();
     //private final Limelight m_limelight = new Limelight();
+=======
+    private final Limelight m_limelight = new Limelight();
+>>>>>>> Stashed changes
    
 
     // The driver's controller
@@ -116,6 +125,7 @@ public class RobotContainer {
         
         // Operator Controls
 
+<<<<<<< Updated upstream
         m_operatorController1.a()
             .whileTrue(new RunCommand(
                 () -> m_lights.setLEDs(LightsConstants.GREEN),
@@ -132,6 +142,12 @@ public class RobotContainer {
             .whileTrue(new RunCommand(
                 () -> m_lights.setLEDs(LightsConstants.GOLD),
                 m_lights));
+=======
+        new JoystickButton(m_rightDriverController, OIConstants.kJS_Trigger)
+            .whileTrue(new DriveWithAprilTagCommand(m_robotDrive, m_limelight, m_leftDriverController)
+            );
+
+>>>>>>> Stashed changes
 
 ////    Operator Controls 
  
