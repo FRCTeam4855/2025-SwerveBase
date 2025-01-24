@@ -64,6 +64,9 @@ public final class Constants {
     public static final int kFrontRightTurningCanId = 8;
     public static final int kRearRightTurningCanId = 6;
 
+    //Solenoid ID
+    public static final int DoubleSolenoidCanId = 19;
+
     public static final boolean kGyroReversed = true;
   }
 
