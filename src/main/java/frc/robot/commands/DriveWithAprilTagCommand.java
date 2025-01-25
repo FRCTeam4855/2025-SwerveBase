@@ -2,7 +2,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Limelight;
 
@@ -36,14 +38,18 @@ public class DriveWithAprilTagCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	public void execute() {
+		// SmartDashboard.putNumber("Limelight Cmd Yaw", limelight.tagPose[4]/90);
 
-		//double angle = limelight.getAngleToTurnToTarget();
-
+		// driveSubsystem.drive(
+		// 	-MathUtil.applyDeadband(joystick.getY() * OIConstants.kSpeedMultiplierPrecise, JOYSTICK_AXIS_THRESHOLD),
+		// 	-MathUtil.applyDeadband(joystick.getX() * OIConstants.kSpeedMultiplierPrecise, JOYSTICK_AXIS_THRESHOLD),
+		// 	-limelight.tagPose[4]/90.00,
+		// 	true, true);
 		driveSubsystem.drive(
-			-MathUtil.applyDeadband(joystick.getY(), JOYSTICK_AXIS_THRESHOLD),
-			-MathUtil.applyDeadband(joystick.getX(), JOYSTICK_AXIS_THRESHOLD),
-			-limelight.xvalue/90.00,
-			true, true);
+			-MathUtil.applyDeadband(joystick.getY() * OIConstants.kSpeedMultiplierPrecise, JOYSTICK_AXIS_THRESHOLD),
+			-MathUtil.applyDeadband(limelight.tagPose[0]*.3, .1),
+			-MathUtil.applyDeadband(limelight.tagPose[4]/90.00, .1),
+			false, true);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

@@ -13,12 +13,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.LightsConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveWithAprilTagCommand;
+import frc.robot.commands.LimelightStrafeCommand;
 import frc.robot.subsystems.DriveSubsystem;
-<<<<<<< Updated upstream
 import frc.robot.subsystems.LightsSubsystem;
-=======
 import frc.robot.subsystems.Limelight;
->>>>>>> Stashed changes
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -36,13 +34,8 @@ public class RobotContainer {
 
     // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-<<<<<<< Updated upstream
     private final LightsSubsystem m_lights = new LightsSubsystem();
-    //private final Limelight m_limelight = new Limelight();
-=======
     private final Limelight m_limelight = new Limelight();
->>>>>>> Stashed changes
-   
 
     // The driver's controller
     Joystick m_leftDriverController = new Joystick(OIConstants.kLeftDriverControllerPort);
@@ -54,7 +47,7 @@ public class RobotContainer {
     public double speedMultiplier = OIConstants.kSpeedMultiplierDefault;
     private final SendableChooser<Command> autoChooser;
 
-    /**
+    /*
     * The container for the robot. Contains subsystems, OI devices, and commands.
     */
     public RobotContainer() {
@@ -72,7 +65,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_leftDriverController.getRawAxis(0) * speedMultiplier, OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_rightDriverController.getRawAxis(0) * speedMultiplier, OIConstants.kDriveDeadband) * OIConstants.kRotateScale,
                 fieldOriented, true),
-            m_robotDrive));
+             m_robotDrive));
 
             autoChooser = AutoBuilder.buildAutoChooser(); 
             SmartDashboard.putData("Auto Chooser", autoChooser);             
@@ -91,18 +84,18 @@ public class RobotContainer {
     
 ////    Driver Controls
 
-       new JoystickButton(m_leftDriverController,OIConstants.kJS_BB)
+        new JoystickButton(m_leftDriverController,OIConstants.kJS_BB)
             .whileTrue(new RunCommand(
                 () -> m_robotDrive.setX(),
                 m_robotDrive));
 
-         new JoystickButton(m_rightDriverController,OIConstants.kJS_LB)
-             .whileTrue(new RunCommand(
+        new JoystickButton(m_rightDriverController,OIConstants.kJS_LB)
+            .whileTrue(new RunCommand(
                  () -> m_robotDrive.strafeLeft(),
                  m_robotDrive));
 
-         new JoystickButton(m_rightDriverController,OIConstants.kJS_RB)
-             .whileTrue(new RunCommand(
+        new JoystickButton(m_rightDriverController,OIConstants.kJS_RB)
+            .whileTrue(new RunCommand(
                  () -> m_robotDrive.strafeRight(),
                  m_robotDrive));
        
@@ -122,10 +115,21 @@ public class RobotContainer {
         new JoystickButton(m_leftDriverController, OIConstants.kJS_Trigger)  //Precise Driving Mode clear
             .whileFalse(new InstantCommand(
                 () -> speedMultiplier=OIConstants.kSpeedMultiplierDefault));
+
+        new JoystickButton(m_rightDriverController, OIConstants.kJS_Trigger)
+            .whileTrue(new DriveWithAprilTagCommand(
+            m_robotDrive, m_limelight, m_rightDriverController));
+        
+        new JoystickButton(m_rightDriverController, 8)
+            .whileTrue(new InstantCommand(
+                () -> m_limelight.isLimelightOnTarget = true));
+
+            new JoystickButton(m_rightDriverController, 8)
+            .whileFalse(new InstantCommand(
+                () -> m_limelight.isLimelightOnTarget = false));
         
         // Operator Controls
 
-<<<<<<< Updated upstream
         m_operatorController1.a()
             .whileTrue(new RunCommand(
                 () -> m_lights.setLEDs(LightsConstants.GREEN),
@@ -142,12 +146,9 @@ public class RobotContainer {
             .whileTrue(new RunCommand(
                 () -> m_lights.setLEDs(LightsConstants.GOLD),
                 m_lights));
-=======
         new JoystickButton(m_rightDriverController, OIConstants.kJS_Trigger)
             .whileTrue(new DriveWithAprilTagCommand(m_robotDrive, m_limelight, m_leftDriverController)
             );
-
->>>>>>> Stashed changes
 
 ////    Operator Controls 
  
