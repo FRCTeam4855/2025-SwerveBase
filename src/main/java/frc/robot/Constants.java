@@ -136,6 +136,10 @@ public final class Constants {
     public static final double kSpeedMultiplierDefault = 1;   // the default speed when no accessory buttons are held down
     public static final double kSpeedMultiplierPrecise = 0.5; // the speed when the trigger is held down for precise movements
 
+    //Constants for using the Joystick slider to modify tuning parameters in real-time
+    public static final double kTuningMin = 0.1; // the minimum speed for tuning
+    public static final double kTuningMax = 0.5; // the maximum speed for tuning
+
     //driver buttons
     public static final int kGyroReset_Start = 3;
     public static final int kFieldOrientedToggle_LB = 4;
