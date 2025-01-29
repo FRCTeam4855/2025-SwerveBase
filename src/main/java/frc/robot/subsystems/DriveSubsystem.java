@@ -269,14 +269,21 @@ public class DriveSubsystem extends SubsystemBase {
     double ySpeedDelivered = ySpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed;
 
+    SmartDashboard.putNumber("limelightOffset vxMetersPerSecond", limelightOffset.vxMetersPerSecond);
+    SmartDashboard.putNumber("limelightOffset vyMetersPerSecond", limelightOffset.vyMetersPerSecond);
+    SmartDashboard.putNumber("limelightOffset omegaRadiansPerSecond", limelightOffset.omegaRadiansPerSecond);
+    
+    final ChassisSpeeds k_ChassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(limelightOffset, Rotation2d.fromDegrees(getStdAngle()));
+
+    SmartDashboard.putNumber("limelightOffset field oriented X speed", k_ChassisSpeeds.vxMetersPerSecond);
+    SmartDashboard.putNumber("limelightOffset field oriented Y speed", k_ChassisSpeeds.vyMetersPerSecond);
+    SmartDashboard.putNumber("limelightOffset field oriented omega speed", k_ChassisSpeeds.omegaRadiansPerSecond);
+
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            /*? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                Rotation2d.fromDegrees(getStdAngle()))
-            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered).plus(limelightOffset));*/
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
                 Rotation2d.fromDegrees(getStdAngle()))
-                .plus(ChassisSpeeds.fromRobotRelativeSpeeds(limelightOffset, Rotation2d.fromDegrees(getStdAngle() * -1)))
+                .plus(ChassisSpeeds.fromRobotRelativeSpeeds(limelightOffset, Rotation2d.fromDegrees(getStdAngle())))
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered).plus(limelightOffset));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
