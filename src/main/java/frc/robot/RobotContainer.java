@@ -134,7 +134,7 @@ public class RobotContainer {
                  * m_robotDrive, m_limelight, m_rightDriverController));
                  */
                 new JoystickButton(m_rightDriverController, OIConstants.kJS_Trigger)
-                                .whileTrue(new InstantCommand(() -> m_robotDrive.updateLimelightOffset(), m_limelight))
+                                .whileTrue(new RunCommand(() -> m_robotDrive.updateLimelightOffset(m_limelight), m_limelight))
                                 .onFalse(new InstantCommand(() -> m_robotDrive.resetLimelightOffset(), m_limelight));
                                 
                 new JoystickButton(m_rightDriverController, 8)

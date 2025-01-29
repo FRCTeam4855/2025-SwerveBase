@@ -34,7 +34,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class DriveSubsystem extends SubsystemBase {
 
   RobotConfig config;
-  Limelight limelight;
+  //Limelight limelight;
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       DriveConstants.kFrontLeftDrivingCanId,
@@ -143,9 +143,9 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Update the limelightOffset with values from the LimeLight
    */
-  public void updateLimelightOffset() {
-    //ChassisSpeeds tChassisSpeeds = new ChassisSpeeds(0, 0, 0);
-    ChassisSpeeds tChassisSpeeds = limelight.limelightGetOffsetSpeeds();
+  public void updateLimelightOffset(Limelight m_limelight) {
+    ChassisSpeeds tChassisSpeeds = new ChassisSpeeds();
+    m_limelight.limelightGetOffsetSpeeds(tChassisSpeeds);
 
     limelightOffset = new ChassisSpeeds(tChassisSpeeds.vxMetersPerSecond * DriveConstants.kMaxSpeedMetersPerSecond,
         tChassisSpeeds.vyMetersPerSecond * DriveConstants.kMaxSpeedMetersPerSecond,
@@ -271,13 +271,13 @@ public class DriveSubsystem extends SubsystemBase {
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                Rotation2d.fromDegrees(getStdAngle()))
-            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered).plus(limelightOffset));
             /*? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
                 Rotation2d.fromDegrees(getStdAngle()))
-                .plus(ChassisSpeeds.fromRobotRelativeSpeeds(limelightOffset, Rotation2d.fromDegrees(getStdAngle())))
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered).plus(limelightOffset));*/
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
+                Rotation2d.fromDegrees(getStdAngle()))
+                .plus(ChassisSpeeds.fromRobotRelativeSpeeds(limelightOffset, Rotation2d.fromDegrees(getStdAngle() * -1)))
+            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered).plus(limelightOffset));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);

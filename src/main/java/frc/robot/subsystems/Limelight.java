@@ -27,14 +27,20 @@ public class Limelight extends SubsystemBase {
   NetworkTableEntry tEntry = table.getEntry("tid");
   public NetworkTableEntry poseEntry = table.getEntry("targetpose_robotspace");
 
-  public ChassisSpeeds limelightGetOffsetSpeeds(){
+  public void limelightGetOffsetSpeeds(ChassisSpeeds tChassisSpeeds) {
+    //return(new ChassisSpeeds(0, 0, 0));
     if(doesLimelightHaveTarget()) {
-       /*double[] pose = poseEntry.getDoubleArray(new double[6]);
-        return(new ChassisSpeeds(0, -MathUtil.applyDeadband(pose[0] * .3, .1), -MathUtil.applyDeadband(pose[4] / 90.00, .1)));
-        //return(new ChassisSpeeds(0, -MathUtil.applyDeadband(pose[0] * m_robotContainer.tuningValue, .1), -MathUtil.applyDeadband(pose[4] / 90.00, .1)));*/
-        return(new ChassisSpeeds(0, 0, 0));  
+       double[] pose = poseEntry.getDoubleArray(new double[6]);
+        tChassisSpeeds.vxMetersPerSecond = 0;
+        tChassisSpeeds.vyMetersPerSecond = -MathUtil.applyDeadband(pose[0] * .3, .1);
+        tChassisSpeeds.omegaRadiansPerSecond = -MathUtil.applyDeadband(pose[4] / 90.00, .1);
+        //  0, -MathUtil.applyDeadband(pose[0] * .3, .1), -MathUtil.applyDeadband(pose[4] / 90.00, .1)));
+        //return(new ChassisSpeeds(0, -MathUtil.applyDeadband(pose[0] * m_robotContainer.tuningValue, .1), -MathUtil.applyDeadband(pose[4] / 90.00, .1)));
+        //return(new ChassisSpeeds(0, 0, 0));  
     } else {
-        return(new ChassisSpeeds(0, 0, 0));
+      tChassisSpeeds.vxMetersPerSecond = 0;
+      tChassisSpeeds.vyMetersPerSecond = 0;
+      tChassisSpeeds.omegaRadiansPerSecond = 0;
     }
   }
 
