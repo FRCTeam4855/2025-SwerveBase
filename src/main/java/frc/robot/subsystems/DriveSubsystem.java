@@ -144,6 +144,7 @@ public class DriveSubsystem extends SubsystemBase {
    * Update the limelightOffset with values from the LimeLight
    */
   public void updateLimelightOffset() {
+    //ChassisSpeeds tChassisSpeeds = new ChassisSpeeds(0, 0, 0);
     ChassisSpeeds tChassisSpeeds = limelight.limelightGetOffsetSpeeds();
 
     limelightOffset = new ChassisSpeeds(tChassisSpeeds.vxMetersPerSecond * DriveConstants.kMaxSpeedMetersPerSecond,
@@ -272,8 +273,11 @@ public class DriveSubsystem extends SubsystemBase {
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
                 Rotation2d.fromDegrees(getStdAngle()))
-                .plus(ChassisSpeeds.fromRobotRelativeSpeeds(limelightOffset, Rotation2d.fromDegrees(getStdAngle())))
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered).plus(limelightOffset));
+            /*? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
+                Rotation2d.fromDegrees(getStdAngle()))
+                .plus(ChassisSpeeds.fromRobotRelativeSpeeds(limelightOffset, Rotation2d.fromDegrees(getStdAngle())))
+            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered).plus(limelightOffset));*/
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);

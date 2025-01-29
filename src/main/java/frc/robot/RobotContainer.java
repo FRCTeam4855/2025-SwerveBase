@@ -46,6 +46,7 @@ public class RobotContainer {
         public static boolean fieldOriented = false;
         public double speedMultiplier = OIConstants.kSpeedMultiplierDefault;
         private final SendableChooser<Command> autoChooser;
+        public double tuningValue = 0.0;
 
         /*
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -79,6 +80,7 @@ public class RobotContainer {
 
                 autoChooser = AutoBuilder.buildAutoChooser();
                 SmartDashboard.putData("Auto Chooser", autoChooser);
+                tuningValue = ((((m_rightDriverController.getRawAxis(3)+1)/2) * (OIConstants.kTuningMax - OIConstants.kTuningMin)) + OIConstants.kTuningMin);
         }
 
         /**

@@ -12,8 +12,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 
 public class Limelight extends SubsystemBase {
-
-  private final RobotContainer m_robotContainer = new RobotContainer();
+  //
+  RobotContainer m_robotContainer; 
+  //private final RobotContainer m_robotContainer;
   public double limelightTarget;
   public double[] tagPose;
   public boolean isLimelightOnTarget = false;
@@ -25,12 +26,13 @@ public class Limelight extends SubsystemBase {
   NetworkTableEntry aEntry = table.getEntry("ta"); //Target Area (0% of image to 100% of image)
   NetworkTableEntry tEntry = table.getEntry("tid");
   public NetworkTableEntry poseEntry = table.getEntry("targetpose_robotspace");
-  private double tuningValue = 0.0;
 
   public ChassisSpeeds limelightGetOffsetSpeeds(){
     if(doesLimelightHaveTarget()) {
-        double[] pose = poseEntry.getDoubleArray(new double[6]);
-        return(new ChassisSpeeds(0, -MathUtil.applyDeadband(pose[0] * tuningValue, .1), -MathUtil.applyDeadband(pose[4] / 90.00, .1)));
+       /*double[] pose = poseEntry.getDoubleArray(new double[6]);
+        return(new ChassisSpeeds(0, -MathUtil.applyDeadband(pose[0] * .3, .1), -MathUtil.applyDeadband(pose[4] / 90.00, .1)));
+        //return(new ChassisSpeeds(0, -MathUtil.applyDeadband(pose[0] * m_robotContainer.tuningValue, .1), -MathUtil.applyDeadband(pose[4] / 90.00, .1)));*/
+        return(new ChassisSpeeds(0, 0, 0));  
     } else {
         return(new ChassisSpeeds(0, 0, 0));
     }
@@ -90,8 +92,7 @@ public class Limelight extends SubsystemBase {
     tagPose = poseEntry.getDoubleArray(new double[0]); //tx = [0] ty = [1] tz = [2] pitch = [3] yaw = [4] roll = [5]
     limelightTarget = tEntry.getDouble(-1);
 
-    tuningValue = ((((m_robotContainer.m_rightDriverController.getRawAxis(3)+1)/2) * (OIConstants.kTuningMax - OIConstants.kTuningMin)) + OIConstants.kTuningMin);
-    SmartDashboard.putNumber("Limelight Tuning Value", tuningValue);
+    //SmartDashboard.putNumber("Limelight Tuning Value", m_robotContainer.tuningValue);
 
     SmartDashboard.putNumber("Limelight X", tagPose[0]);
     SmartDashboard.putNumber("Limelight Y", tagPose[1]);
