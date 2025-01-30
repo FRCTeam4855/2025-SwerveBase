@@ -108,17 +108,17 @@ public class RobotContainer {
             .whileTrue(new InstantCommand(
                 () -> toggleFieldOriented()));
         
-        new JoystickButton(m_leftDriverController, OIConstants.kJS_Trigger)  //Precise Driving Mode set
+        new JoystickButton(m_rightDriverController, OIConstants.kJS_Trigger)  //Precise Driving Mode set
             .whileTrue(new InstantCommand(
                 () -> speedMultiplier=OIConstants.kSpeedMultiplierPrecise));
 
-        new JoystickButton(m_leftDriverController, OIConstants.kJS_Trigger)  //Precise Driving Mode clear
+        new JoystickButton(m_rightDriverController, OIConstants.kJS_Trigger)  //Precise Driving Mode clear
             .whileFalse(new InstantCommand(
                 () -> speedMultiplier=OIConstants.kSpeedMultiplierDefault));
 
-        new JoystickButton(m_rightDriverController, OIConstants.kJS_Trigger)
+        new JoystickButton(m_leftDriverController, OIConstants.kJS_Trigger)
             .whileTrue(new DriveWithAprilTagCommand(
-            m_robotDrive, m_limelight, m_rightDriverController));
+            m_robotDrive, m_limelight, m_leftDriverController, m_rightDriverController));
         
         new JoystickButton(m_rightDriverController, 8)
             .whileTrue(new InstantCommand(
@@ -146,9 +146,6 @@ public class RobotContainer {
             .whileTrue(new RunCommand(
                 () -> m_lights.setLEDs(LightsConstants.GOLD),
                 m_lights));
-        new JoystickButton(m_rightDriverController, OIConstants.kJS_Trigger)
-            .whileTrue(new DriveWithAprilTagCommand(m_robotDrive, m_limelight, m_leftDriverController)
-            );
 
 ////    Operator Controls 
  

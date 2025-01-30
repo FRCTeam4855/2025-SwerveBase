@@ -15,14 +15,15 @@ public class DriveWithAprilTagCommand extends Command {
 
 	private DriveSubsystem driveSubsystem;
 	private Limelight limelight;
-	private Joystick joystick;
+	private Joystick joystickLeft, joystickRight;
 
 	public static final double JOYSTICK_AXIS_THRESHOLD = 0.15;
 
-	public DriveWithAprilTagCommand(DriveSubsystem driveSubsystem, Limelight limelight, Joystick joystick) {
+	public DriveWithAprilTagCommand(DriveSubsystem driveSubsystem, Limelight limelight, Joystick joystickLeft, Joystick joystickRight) {
 		this.driveSubsystem = driveSubsystem;
 		this.limelight = limelight;
-		this.joystick = joystick;
+		this.joystickLeft = joystickLeft;
+		this.joystickRight = joystickRight;
 		
 		addRequirements(driveSubsystem);
 		addRequirements(limelight);
@@ -46,9 +47,9 @@ public class DriveWithAprilTagCommand extends Command {
 		// 	-limelight.tagPose[4]/90.00,
 		// 	true, true);
 		driveSubsystem.drive(
-			-MathUtil.applyDeadband(joystick.getY() * OIConstants.kSpeedMultiplierPrecise, JOYSTICK_AXIS_THRESHOLD),
-			-MathUtil.applyDeadband(limelight.tagPose[0]*.3, .1),
-			-MathUtil.applyDeadband(limelight.tagPose[4]/90.00, .1),
+			-MathUtil.applyDeadband(joystickLeft.getY() * OIConstants.kSpeedMultiplierPrecise, JOYSTICK_AXIS_THRESHOLD),
+			-MathUtil.applyDeadband(limelight.tagPose[0] * .3 + joystickLeft.getX() * .5, .1),
+			-MathUtil.applyDeadband(limelight.tagPose[4]/90.00 * 0.5 + joystickRight.getX() * 0.25, .05),
 			false, true);
 	}
 
