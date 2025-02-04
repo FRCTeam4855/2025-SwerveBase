@@ -6,16 +6,22 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.LightsConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.DriveWithAprilTagCommand;
+import frc.robot.commands.TimedLeftStrafeCommand;
+import frc.robot.commands.TimedRightStrafeCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
+import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -32,7 +38,7 @@ public class RobotContainer {
     // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final LightsSubsystem m_lights = new LightsSubsystem();
-    //private final Limelight m_limelight = new Limelight();
+    private final Limelight m_limelight = new Limelight();
    
 
     // The driver's controller
@@ -87,22 +93,20 @@ public class RobotContainer {
                 () -> m_robotDrive.setX(),
                 m_robotDrive));
 
-         new JoystickButton(m_rightDriverController,OIConstants.kJS_LB)
-             .whileTrue(new RunCommand(
-                 () -> m_robotDrive.strafeLeft(),
+        new JoystickButton(m_leftDriverController,OIConstants.kJS_LB)
+            .onTrue(new TimedLeftStrafeCommand(
                  m_robotDrive));
 
-         new JoystickButton(m_rightDriverController,OIConstants.kJS_RB)
-             .whileTrue(new RunCommand(
-                 () -> m_robotDrive.strafeRight(),
+        new JoystickButton(m_leftDriverController,OIConstants.kJS_RB)
+            .onTrue(new TimedRightStrafeCommand(
                  m_robotDrive));
        
-        new JoystickButton(m_leftDriverController, OIConstants.kJS_RB).debounce(0.1)  //Gyro reset
+        new JoystickButton(m_rightDriverController, OIConstants.kJS_RB).debounce(0.1)  //Gyro reset
             .whileTrue(new InstantCommand(
                 () -> m_robotDrive.zeroHeading(),
                 m_robotDrive)); 
 
-        new JoystickButton(m_leftDriverController, OIConstants.kJS_LB)  //Field oriented toggle
+        new JoystickButton(m_rightDriverController, OIConstants.kJS_LB)  //Field oriented toggle
             .whileTrue(new InstantCommand(
                 () -> toggleFieldOriented()));
         
@@ -113,6 +117,11 @@ public class RobotContainer {
         new JoystickButton(m_leftDriverController, OIConstants.kJS_Trigger)  //Precise Driving Mode clear
             .whileFalse(new InstantCommand(
                 () -> speedMultiplier=OIConstants.kSpeedMultiplierDefault));
+
+        new JoystickButton(m_leftDriverController, OIConstants.kJS_Trigger)
+            .whileTrue(new DriveWithAprilTagCommand(
+            m_robotDrive, m_limelight, m_leftDriverController, m_rightDriverController));
+        
         
         // Operator Controls
 

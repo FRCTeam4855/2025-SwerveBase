@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Limelight extends SubsystemBase {
 
   public double limelightTarget;
-
+  public double[] tagPose;
   NetworkTableInstance inst = NetworkTableInstance.getDefault();
   NetworkTable table = inst.getTable("limelight");
   NetworkTableEntry ledMode = table.getEntry("ledMode");
@@ -57,7 +57,7 @@ public class Limelight extends SubsystemBase {
   public void setLimelightPipeToRetroTape() {
     pipeline.setNumber(1);
   }
- 
+  
 @Override
   public void periodic() {
     double tv = vEntry.getDouble(0); // Whether the limelight has any valid targets (0 or 1)

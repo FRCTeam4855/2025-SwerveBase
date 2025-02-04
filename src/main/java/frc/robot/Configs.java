@@ -2,16 +2,19 @@ package frc.robot;
 
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import frc.robot.Constants.ModuleConstants;
 
 public final class Configs {
+
     public static final class MAXSwerveModule{
 
         public static final SparkMaxConfig driveConfig = new SparkMaxConfig();
         public static final SparkMaxConfig turnConfig = new SparkMaxConfig();
 
-        static{
+        static {
             double drivingFactor = ModuleConstants.kWheelDiameterMeters * Math.PI
                     / ModuleConstants.kDrivingMotorReduction;
             double turningFactor = 2 * Math.PI;
