@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BottomStart_B"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B-Feeder"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Feeder-C"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C-Feeder"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Feeder-C"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
