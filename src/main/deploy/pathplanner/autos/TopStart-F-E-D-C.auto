@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CenterStart-A"
+            "pathName": "TopStart-F"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A-TopFeeder"
+            "pathName": "F-TopFeeder"
           }
         },
         {
@@ -31,13 +31,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TopFeeder-E"
+            "pathName": "TopFeeder-D"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D-BottomFeeder"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BottomFeeder-C"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "3 Coral Autons",
+  "folder": "4 Coral Autons",
   "choreoAuto": false
 }

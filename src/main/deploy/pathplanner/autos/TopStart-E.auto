@@ -25,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "E-Feeder"
+            "pathName": "E-TopFeeder"
           }
         },
         {
@@ -38,6 +38,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "3 Coral Autons",
   "choreoAuto": false
 }

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.13825,
-        "y": 6.41375
+        "x": 4.641,
+        "y": 6.5015
       },
       "isLocked": false,
       "linkedName": "F"
@@ -45,7 +45,7 @@
     "rotation": -53.42696902148062
   },
   "reversed": false,
-  "folder": null,
+  "folder": "F Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -120.06858282186244

@@ -7,37 +7,49 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CenterStart-A"
+            "pathName": "ProcessorStart-B"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A-TopFeeder"
+            "pathName": "B-BottomFeeder"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "TopFeeder-E"
+            "pathName": "BottomFeeder-C"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E-TopFeeder"
+            "pathName": "C-BottomFeeder"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "TopFeeder-E"
+            "pathName": "BottomFeeder-C"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C-BottomFeeder"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BottomFeeder-D"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "3 Coral Autons",
+  "folder": "4 Coral Autons",
   "choreoAuto": false
 }
