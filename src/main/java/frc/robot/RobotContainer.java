@@ -139,8 +139,26 @@ public class RobotContainer {
                 m_lights));
         m_operatorController1.y()
             .whileTrue(new RunCommand(
+                () -> m_lights.setLEDs(LightsConstants.C1_AND_C2_COLOR_WAVES),
+                m_lights));
+        m_operatorController1.leftBumper()
+            .whileTrue(new RunCommand(
+                () -> m_lights.setLEDs(LightsConstants.AQUA),
+                m_lights));
+        m_operatorController1.rightBumper()
+            .whileTrue(new RunCommand(
+                () -> m_lights.setLEDs(LightsConstants.HOT_PINK),
+                m_lights));
+        m_operatorController1.leftStick()
+            .whileTrue(new RunCommand(
+                () -> m_lights.setLEDs(LightsConstants.DARK_RED),
+                m_lights));
+        m_operatorController1.rightStick()
+            .whileTrue(new RunCommand(
                 () -> m_lights.setLEDs(LightsConstants.GOLD),
                 m_lights));
+
+    
 
 ////    Operator Controls 
  
