@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 7.02,
-        "y": 7.3302499999999995
+        "y": 7.33
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.851220301478168,
-        "y": 7.145822742343005
+        "x": 6.851221511537251,
+        "y": 7.145571634957554
       },
       "isLocked": false,
       "linkedName": "TopStart"
@@ -20,8 +20,8 @@
         "y": 5.456426056338028
       },
       "prevControl": {
-        "x": 5.442944595306556,
-        "y": 5.641053408686643
+        "x": 5.442943288474623,
+        "y": 5.641054601787545
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "F Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -127.66562119858327
+    "rotation": -127.66600000000001
   },
   "useDefaultConstraints": true
 }

@@ -17,8 +17,11 @@ import frc.robot.subsystems.LightsSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 
 //import frc.robot.subsystems.Limelight;
@@ -50,7 +53,36 @@ public class RobotContainer {
     * The container for the robot. Contains subsystems, OI devices, and commands.
     */
     public RobotContainer() {
+        
         //Register Named Commands
+
+        //Gold represents the elevator going to level 0 during transit
+        NamedCommands.registerCommand("Gold", new InstantCommand(
+                    () -> m_lights.setLEDs(LightsConstants.GOLD),
+                    m_lights));
+
+        //Violet represents the elevator going to level 4 during transit
+        NamedCommands.registerCommand("Violet", new InstantCommand(
+                    () -> m_lights.setLEDs(LightsConstants.VIOLET),
+                    m_lights));
+
+        //Green represents scoring coral which shouldn't take too long, .5 seconds to allow piece to exit manipulator
+        NamedCommands.registerCommand("Green", new SequentialCommandGroup(
+            new InstantCommand(
+                    () -> m_lights.setLEDs(LightsConstants.GREEN),
+                    m_lights),
+                    new WaitCommand(.5)
+                    ));
+
+        //Blue represents intaking which should be almost instant, .3 seconds to allow the human player to place the coral piece
+        NamedCommands.registerCommand("Blue", new SequentialCommandGroup(
+            new InstantCommand(
+                    () -> m_lights.setLEDs(LightsConstants.BLUE),
+                    m_lights),
+                    new WaitCommand(.3)
+                    ));
+
+
         // Configure the button bindings
         configureButtonBindings();
 
