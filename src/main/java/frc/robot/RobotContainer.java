@@ -66,7 +66,8 @@ public class RobotContainer {
                     () -> m_lights.setLEDs(LightsConstants.VIOLET),
                     m_lights));
 
-        //Green represents scoring coral which shouldn't take too long, .5 seconds to allow piece to exit manipulator
+        /*Green represents scoring coral which shouldn't take too long, 
+        .5 seconds to allow piece to exit manipulator*/
         NamedCommands.registerCommand("Green", new SequentialCommandGroup(
             new InstantCommand(
                     () -> m_lights.setLEDs(LightsConstants.GREEN),
@@ -74,7 +75,8 @@ public class RobotContainer {
                     new WaitCommand(.5)
                     ));
 
-        //Blue represents intaking which should be almost instant, .3 seconds to allow the human player to place the coral piece
+        /*Blue represents intaking which should be almost instant, .3 seconds to allow the human player to place the coral piece
+        Consider removing wait command and work on timing with human player*/
         NamedCommands.registerCommand("Blue", new SequentialCommandGroup(
             new InstantCommand(
                     () -> m_lights.setLEDs(LightsConstants.BLUE),

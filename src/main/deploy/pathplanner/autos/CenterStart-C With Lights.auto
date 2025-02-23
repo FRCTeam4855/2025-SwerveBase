@@ -55,22 +55,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BottomFeeder-C"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Violet"
-                }
-              }
-            ]
+            "pathName": "BottomFeeder-C"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {
@@ -105,22 +98,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BottomFeeder-C"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Violet"
-                }
-              }
-            ]
+            "pathName": "BottomFeeder-C"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {
