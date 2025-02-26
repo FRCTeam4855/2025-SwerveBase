@@ -57,7 +57,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BottomFeeder-C Right"
+            "pathName": "BottomFeeder-C Left"
           }
         },
         {
@@ -100,7 +100,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BottomFeeder-C Left"
+            "pathName": "BottomFeeder-C Right"
           }
         },
         {
