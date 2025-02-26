@@ -53,9 +53,9 @@ public class RobotContainer {
     * The container for the robot. Contains subsystems, OI devices, and commands.
     */
     public RobotContainer() {
-        
-        //Register Named Commands
 
+        //Register Named Commands
+        
         //Gold represents the elevator going to level 0 during transit
         NamedCommands.registerCommand("Gold", new InstantCommand(
                     () -> m_lights.setLEDs(LightsConstants.GOLD),
@@ -116,7 +116,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
     
 ////    Driver Controls
-
+    // new JoystickButton(GenericHID joystick, int buttonNumber) 
        new JoystickButton(m_leftDriverController,OIConstants.kJS_BB)
             .whileTrue(new RunCommand(
                 () -> m_robotDrive.setX(),

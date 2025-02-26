@@ -19,19 +19,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BottomFeeder-C Left"
+            "pathName": "BottomFeeder-C Right"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C-BottomFeeder"
+            "pathName": "C Right-BottomFeeder"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BottomFeeder-C Left"
+            "pathName": "BottomFeeder-C Right"
           }
         }
       ]

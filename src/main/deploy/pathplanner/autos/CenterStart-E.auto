@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CenterStart-A"
+            "pathName": "CenterStart-A Left"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A-TopFeeder"
+            "pathName": "ALeft-TopFeeder"
           }
         },
         {

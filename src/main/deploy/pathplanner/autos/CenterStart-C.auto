@@ -7,31 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CenterStart-A"
+            "pathName": "CenterStart-A Left"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A-BottomFeeder"
+            "pathName": "ALeft-BottomFeeder"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BottomFeeder-C Left"
+            "pathName": "BottomFeeder-C Right"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C-BottomFeeder"
+            "pathName": "C Right-BottomFeeder"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BottomFeeder-C Left"
+            "pathName": "BottomFeeder-C Right"
           }
         }
       ]
