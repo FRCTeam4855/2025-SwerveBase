@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -14,14 +16,24 @@ import frc.robot.Constants.LightsConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
+import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import java.nio.file.Path;
+import java.util.List;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.Waypoint;
 
 
 //import frc.robot.subsystems.Limelight;
@@ -36,7 +48,7 @@ public class RobotContainer {
     // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final LightsSubsystem m_lights = new LightsSubsystem();
-    //private final Limelight m_limelight = new Limelight();
+    private static Limelight m_limelight = new Limelight();
    
 
     // The driver's controller
@@ -49,10 +61,28 @@ public class RobotContainer {
     public double speedMultiplier = OIConstants.kSpeedMultiplierDefault;
     private final SendableChooser<Command> autoChooser;
 
+    public void LimelightPathplannerPath (PathPlannerPath newpath) {
+        List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
+            new Pose2d(m_limelight.llPose [0], m_limelight.llPose [2], Rotation2d.fromDegrees(m_limelight.llPose [4])),
+            new Pose2d(5.700, 3.800, Rotation2d.fromDegrees(180)));
+
+        PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
+
+        PathPlannerPath path = new PathPlannerPath(
+        waypoints,
+        constraints,
+        null,
+        new GoalEndState(0.0, Rotation2d.fromDegrees(180)));
+
+        newpath = path;
+    }
+
+        
     /**
     * The container for the robot. Contains subsystems, OI devices, and commands.
     */
     public RobotContainer() {
+
 
         //Register Named Commands
         
@@ -60,6 +90,17 @@ public class RobotContainer {
         NamedCommands.registerCommand("Gold", new InstantCommand(
                     () -> m_lights.setLEDs(LightsConstants.GOLD),
                     m_lights));
+
+        /* 
+        NamedCommands.registerCommand("Limelight Start to A", new InstantCommand(
+            FollowPathCommand(LimelightPathplannerPath.PathPlannerPath.path)
+        )); */
+
+        /*NamedCommands.registerCommand("Limelight Start to A", new SequentialCommandGroup(
+                    PathPlannerPath newpath;
+                    new InstantCommand(
+                        () -> LimelightPathplannerPath(newpath)),
+                    new FollowPathCommand(newpath)));*/
 
         //Violet represents the elevator going to level 4 during transit
         NamedCommands.registerCommand("Violet", new InstantCommand(
@@ -83,6 +124,7 @@ public class RobotContainer {
                     m_lights),
                     new WaitCommand(.3)
                     ));
+        
 
 
         // Configure the button bindings

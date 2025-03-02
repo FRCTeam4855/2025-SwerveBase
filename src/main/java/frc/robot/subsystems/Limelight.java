@@ -9,15 +9,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Limelight extends SubsystemBase {
 
   public double limelightTarget;
-
+  public double[] tagPose;
+  public double[] llPose;
+  public boolean islimelightOnTarget = false;
   NetworkTableInstance inst = NetworkTableInstance.getDefault();
   NetworkTable table = inst.getTable("limelight");
   NetworkTableEntry ledMode = table.getEntry("ledMode");
   NetworkTableEntry pipeline = table.getEntry("pipeline");
   NetworkTableEntry vEntry = table.getEntry("tv"); //Whether the limelight has any valid targets (0 or 1)
-  NetworkTableEntry poseEntry = table.getEntry("botpose_targetspace");
+  NetworkTableEntry startingPose = table.getEntry("botpose_wpiblue");
   NetworkTableEntry aEntry = table.getEntry("ta"); //Target Area (0% of image to 100% of image)
   NetworkTableEntry tEntry = table.getEntry("tid");
+  public NetworkTableEntry poseEntry = table.getEntry("targetpose_robotspace");
+
+  
 
   public boolean isLimelightLampOn(){
     if (inst.getTable("limelight").getEntry("ledMode").getDouble(0) == 1){
@@ -62,24 +67,27 @@ public class Limelight extends SubsystemBase {
   public void periodic() {
     double tv = vEntry.getDouble(0); // Whether the limelight has any valid targets (0 or 1)
     double ta = aEntry.getDouble(0); // Target Area (0% of image to 100% of image)
-    double[] tx = poseEntry.getDoubleArray(new double[0]); 
-    double[] ty = poseEntry.getDoubleArray(new double[1]); 
-    double[] tz = poseEntry.getDoubleArray(new double[2]);
-    double[] pitch = poseEntry.getDoubleArray(new double[3]);
-    double[] yaw = poseEntry.getDoubleArray(new double[4]);
-    double[] roll = poseEntry.getDoubleArray(new double[5]);
-    limelightTarget = tEntry.getDouble(-1);
 
-    SmartDashboard.putNumberArray("Limelight X", tx);
-    SmartDashboard.putNumberArray("Limelight Y", ty);
-    SmartDashboard.putNumberArray("Limelight Z", tz);
-    SmartDashboard.putNumberArray("Limelight Pitch", pitch);
-    SmartDashboard.putNumberArray("Limelight Yaw", yaw);
-    SmartDashboard.putNumberArray("Limelight Roll", roll);
+    tagPose = poseEntry.getDoubleArray(new double[6]); //tx = [0] ty = [1] tz = [2] pitch = [3] yaw = [4] roll = [5]
+    limelightTarget = tEntry.getDouble(-1);
+    llPose = startingPose.getDoubleArray(new double[5]); //tx = [0] ty = [1] tz = [2] pitch = [3] yaw = [4] roll = [5]
+
+    SmartDashboard.putNumber("Limelight X", tagPose[0]);
+    SmartDashboard.putNumber("Limelight Y", tagPose[1]);
+    SmartDashboard.putNumber("Limelight Z", tagPose[2]);
+    SmartDashboard.putNumber("Limelight Pitch", tagPose[3]);
+    SmartDashboard.putNumber("Limelight Yaw", tagPose[4]);
+    SmartDashboard.putNumber("Limelight Roll", tagPose[5]);
     SmartDashboard.putNumber("Limelight Area", ta);
     SmartDashboard.putNumber("Limelight Valid Target", tv);
     SmartDashboard.putBoolean("Limelight Has Target", doesLimelightHaveTarget());
     SmartDashboard.putBoolean("Limelight in AprilTag Mode", isLimelightOnAprilTagMode());
+
+    SmartDashboard.putNumber("p_tx", llPose[0]);
+    SmartDashboard.putNumber("p_ty", llPose[1]);
+    SmartDashboard.putNumber("p_yaw", llPose[4]);
+
+
   }
   
 }
