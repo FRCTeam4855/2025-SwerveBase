@@ -61,6 +61,28 @@ public class RobotContainer {
     public double speedMultiplier = OIConstants.kSpeedMultiplierDefault;
     private final SendableChooser<Command> autoChooser;
 
+    public PathPlannerPath newpath;
+
+    public void LimelightPathplannerPath () {
+        List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
+            new Pose2d(m_limelight.llPose[0], m_limelight.llPose[2], Rotation2d.fromDegrees(m_limelight.llPose[4])),
+            new Pose2d(5.700, 3.800, Rotation2d.fromDegrees(180)));
+
+        PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
+
+        newpath = new PathPlannerPath(
+            waypoints,
+            constraints,
+            null,
+            new GoalEndState(0.0, Rotation2d.fromDegrees(180)));
+    }
+
+    public void PathPlannerFollowPath (PathPlannerPath path) {
+        AutoBuilder.followPath(path);
+    }
+
+    
+/* 
     public void LimelightPathplannerPath (PathPlannerPath newpath) {
         List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
             new Pose2d(m_limelight.llPose [0], m_limelight.llPose [2], Rotation2d.fromDegrees(m_limelight.llPose [4])),
@@ -76,7 +98,7 @@ public class RobotContainer {
 
         newpath = path;
     }
-
+*/
         
     /**
     * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -90,6 +112,12 @@ public class RobotContainer {
         NamedCommands.registerCommand("Gold", new InstantCommand(
                     () -> m_lights.setLEDs(LightsConstants.GOLD),
                     m_lights));
+
+        NamedCommands.registerCommand("Limelight Start to A", new SequentialCommandGroup(
+                    new InstantCommand(
+                        () -> LimelightPathplannerPath(), m_limelight),
+                    new InstantCommand(
+                        () -> PathPlannerFollowPath(newpath))));
 
         /* 
         NamedCommands.registerCommand("Limelight Start to A", new InstantCommand(
