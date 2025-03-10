@@ -69,7 +69,14 @@ public class DriveSubsystem extends SubsystemBase {
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
   // Odometry class for tracking robot pose
-  public SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+  public SwerveDriveOdometry m_odometry;
+  
+  private Field2d m_field = new Field2d();  //4855
+  
+  /** Creates a new DriveSubsystem. */
+  public DriveSubsystem() {
+
+    m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
       Rotation2d.fromDegrees(getStdAngle()),
       new SwerveModulePosition[] {
@@ -77,12 +84,7 @@ public class DriveSubsystem extends SubsystemBase {
           m_frontRight.getPosition(),
           m_rearLeft.getPosition(),
           m_rearRight.getPosition()
-      });
-
-  private Field2d m_field = new Field2d();  //4855
-  
-  /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {
+      }, new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0)));
 
    try{
      config = RobotConfig.fromGUISettings();

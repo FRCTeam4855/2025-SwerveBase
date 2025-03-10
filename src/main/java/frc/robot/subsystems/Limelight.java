@@ -68,16 +68,16 @@ public class Limelight extends SubsystemBase {
     double tv = vEntry.getDouble(0); // Whether the limelight has any valid targets (0 or 1)
     double ta = aEntry.getDouble(0); // Target Area (0% of image to 100% of image)
 
-    tagPose = poseEntry.getDoubleArray(new double[6]); //tx = [0] ty = [1] tz = [2] pitch = [3] yaw = [4] roll = [5]
+    tagPose = poseEntry.getDoubleArray(new double[6]); //tx = [0] ty = [1] tz = [2] roll = [3] pitch = [4] yaw = [5]
     limelightTarget = tEntry.getDouble(-1);
-    llPose = startingPose.getDoubleArray(new double[5]); //tx = [0] ty = [1] tz = [2] pitch = [3] yaw = [4] roll = [5]
+    llPose = startingPose.getDoubleArray(new double[6]); //tx = [0] ty = [1] tz = [2] roll = [3] pitch = [4] yaw = [5]
 
     SmartDashboard.putNumber("Limelight X", tagPose[0]);
     SmartDashboard.putNumber("Limelight Y", tagPose[1]);
     SmartDashboard.putNumber("Limelight Z", tagPose[2]);
-    SmartDashboard.putNumber("Limelight Pitch", tagPose[3]);
-    SmartDashboard.putNumber("Limelight Yaw", tagPose[4]);
-    SmartDashboard.putNumber("Limelight Roll", tagPose[5]);
+    SmartDashboard.putNumber("Limelight Roll", tagPose[3]);
+    SmartDashboard.putNumber("Limelight Pitch", tagPose[4]);
+    SmartDashboard.putNumber("Limelight Yaw", tagPose[5]);
     SmartDashboard.putNumber("Limelight Area", ta);
     SmartDashboard.putNumber("Limelight Valid Target", tv);
     SmartDashboard.putBoolean("Limelight Has Target", doesLimelightHaveTarget());
@@ -85,7 +85,7 @@ public class Limelight extends SubsystemBase {
 
     SmartDashboard.putNumber("p_tx", llPose[0]);
     SmartDashboard.putNumber("p_ty", llPose[1]);
-    SmartDashboard.putNumber("p_yaw", llPose[4]);
+    SmartDashboard.putNumber("p_yaw", llPose[5]);
 
 
   }
