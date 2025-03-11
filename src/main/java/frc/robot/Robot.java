@@ -94,7 +94,9 @@ public class Robot extends TimedRobot {
     }
     RobotContainer.fieldOriented = true;
     
-    m_robotContainer.m_robotDrive.resetPose(new Pose2d(m_robotContainer.m_limelight.llPose[0], m_robotContainer.m_limelight.llPose[1], Rotation2d.fromDegrees(m_robotContainer.m_limelight.llPose[5])));
+    if (m_robotContainer.m_limelight.llPose[0] != 0) {
+      m_robotContainer.m_robotDrive.resetPose(new Pose2d(m_robotContainer.m_limelight.llPose[0], m_robotContainer.m_limelight.llPose[1], Rotation2d.fromDegrees(m_robotContainer.m_limelight.llPose[5])));
+    }
   }
 
   /** This function is called periodically during operator control. */

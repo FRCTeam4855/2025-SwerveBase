@@ -1,76 +1,18 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
 
 public class Limelight extends SubsystemBase {
 
-  public double limelightTarget;
   public double[] tagPose;
   public double[] llPose;
-  public boolean islimelightOnTarget = false;
-  NetworkTableInstance inst = NetworkTableInstance.getDefault();
-  NetworkTable table = inst.getTable("limelight");
-  NetworkTableEntry ledMode = table.getEntry("ledMode");
-  NetworkTableEntry pipeline = table.getEntry("pipeline");
-  NetworkTableEntry vEntry = table.getEntry("tv"); //Whether the limelight has any valid targets (0 or 1)
-  NetworkTableEntry startingPose = table.getEntry("botpose_wpiblue");
-  NetworkTableEntry aEntry = table.getEntry("ta"); //Target Area (0% of image to 100% of image)
-  NetworkTableEntry tEntry = table.getEntry("tid");
-  public NetworkTableEntry poseEntry = table.getEntry("targetpose_robotspace");
 
-  
-
-  public boolean isLimelightLampOn(){
-    if (inst.getTable("limelight").getEntry("ledMode").getDouble(0) == 1){
-      return true;
-    } else { 
-      return false;
-    }
-  }
-
-  public void setLimelightLampOn() {
-    ledMode.setNumber(3);
-  }
-
-  public void setLimelightLampOff() {
-    ledMode.setNumber(1);
-  }
-
-  public boolean isLimelightOnAprilTagMode(){
-    if (table.getEntry("pipeline").getDouble(0) == 0){
-      return true;
-    } else {
-      return false;
-    }
-  }
-  public boolean doesLimelightHaveTarget(){
-    if (vEntry.getDouble(0) == 1){
-      return true;
-    } else {
-      return false;
-    }
-}
-
-  public void setLimelightPipeToAprilTag() {
-    pipeline.setNumber(0);
-  }
-
-  public void setLimelightPipeToRetroTape() {
-    pipeline.setNumber(1);
-  }
- 
-@Override
+  @Override
   public void periodic() {
-    double tv = vEntry.getDouble(0); // Whether the limelight has any valid targets (0 or 1)
-    double ta = aEntry.getDouble(0); // Target Area (0% of image to 100% of image)
-
-    tagPose = poseEntry.getDoubleArray(new double[6]); //tx = [0] ty = [1] tz = [2] roll = [3] pitch = [4] yaw = [5]
-    limelightTarget = tEntry.getDouble(-1);
-    llPose = startingPose.getDoubleArray(new double[6]); //tx = [0] ty = [1] tz = [2] roll = [3] pitch = [4] yaw = [5]
+    tagPose = LimelightHelpers.getTargetPose_RobotSpace("limelight"); //tx = [0] ty = [1] tz = [2] roll = [3] pitch = [4] yaw = [5]
+    llPose = LimelightHelpers.getBotPose_wpiBlue("limelight"); //tx = [0] ty = [1] tz = [2] roll = [3] pitch = [4] yaw = [5]
 
     SmartDashboard.putNumber("Limelight X", tagPose[0]);
     SmartDashboard.putNumber("Limelight Y", tagPose[1]);
@@ -78,16 +20,12 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("Limelight Roll", tagPose[3]);
     SmartDashboard.putNumber("Limelight Pitch", tagPose[4]);
     SmartDashboard.putNumber("Limelight Yaw", tagPose[5]);
-    SmartDashboard.putNumber("Limelight Area", ta);
-    SmartDashboard.putNumber("Limelight Valid Target", tv);
-    SmartDashboard.putBoolean("Limelight Has Target", doesLimelightHaveTarget());
-    SmartDashboard.putBoolean("Limelight in AprilTag Mode", isLimelightOnAprilTagMode());
+    SmartDashboard.putNumber("Limelight Area", LimelightHelpers.getTA("limelight"));
+    SmartDashboard.putBoolean("Limelight Has Target", LimelightHelpers.getTV("limelight"));
+    SmartDashboard.putString("Limelight in AprilTag Mode", LimelightHelpers.getCurrentPipelineType("limelight"));
 
     SmartDashboard.putNumber("p_tx", llPose[0]);
     SmartDashboard.putNumber("p_ty", llPose[1]);
     SmartDashboard.putNumber("p_yaw", llPose[5]);
-
-
-  }
-  
+  }  
 }
