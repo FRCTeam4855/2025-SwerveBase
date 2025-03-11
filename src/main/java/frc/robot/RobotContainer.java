@@ -65,7 +65,7 @@ public class RobotContainer {
 
     public void LimelightPathplannerPath () {
         List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
-            new Pose2d(m_limelight.llPose[0], m_limelight.llPose[2], Rotation2d.fromDegrees(m_limelight.llPose[4])),
+            new Pose2d(m_limelight.llPose[0], m_limelight.llPose[1], Rotation2d.fromDegrees(m_limelight.llPose[5])),
             new Pose2d(5.700, 3.800, Rotation2d.fromDegrees(180)));
 
         PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);

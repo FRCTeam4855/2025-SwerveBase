@@ -5,9 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Limelight Start to A"
+            "pathName": "CenterStart-A Left"
           }
         }
       ]

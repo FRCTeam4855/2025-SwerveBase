@@ -101,8 +101,8 @@ public class DriveSubsystem extends SubsystemBase {
         this::getSpeeds, 
             (speeds, feedforwards) -> driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
             new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                    new PIDConstants(ModuleConstants.kDrivingP, ModuleConstants.kDrivingI, ModuleConstants.kDrivingD), // Translation PID constants
-                    new PIDConstants(ModuleConstants.kTurningP, ModuleConstants.kTurningI, ModuleConstants.kTurningD) // Rotation PID constants
+                    new PIDConstants(3.75, ModuleConstants.kDrivingI, ModuleConstants.kDrivingD), // Translation PID constants
+                    new PIDConstants(5.25, ModuleConstants.kTurningI, ModuleConstants.kTurningD) // Rotation PID constants
             ),
             config, // The robot configuration
             () -> {
