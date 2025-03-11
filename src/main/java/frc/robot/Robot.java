@@ -55,6 +55,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    RobotContainer.m_robotDrive.updateOdometry();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -69,9 +70,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
 
     m_robotContainer.m_robotDrive.resetPose(new Pose2d(m_robotContainer.m_limelight.llPose[0], m_robotContainer.m_limelight.llPose[1], Rotation2d.fromDegrees(m_robotContainer.m_limelight.llPose[5])));
-
+    
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();//m_autoSelectedString);
-
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
   }
 
   /** This function is called periodically during autonomous. */
-  @Override  public void autonomousPeriodic() {
+  @Override public void autonomousPeriodic() {
   }
 
   @Override
@@ -93,10 +93,10 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     RobotContainer.fieldOriented = true;
-    
     if (m_robotContainer.m_limelight.llPose[0] != 0) {
       m_robotContainer.m_robotDrive.resetPose(new Pose2d(m_robotContainer.m_limelight.llPose[0], m_robotContainer.m_limelight.llPose[1], Rotation2d.fromDegrees(m_robotContainer.m_limelight.llPose[5])));
     }
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();//m_autoSelectedString);
   }
 
   /** This function is called periodically during operator control. */

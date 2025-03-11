@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.LightsConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AlignToReefTagRelative;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -24,12 +25,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-//import java.nio.file.Path;
 import java.util.List;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-//import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -46,7 +46,7 @@ import com.pathplanner.lib.path.Waypoint;
 public class RobotContainer {
 
     // The robot's subsystems
-    public final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    public static DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final LightsSubsystem m_lights = new LightsSubsystem();
     public Limelight m_limelight = new Limelight();
    
@@ -61,11 +61,11 @@ public class RobotContainer {
     public double speedMultiplier = OIConstants.kSpeedMultiplierDefault;
     private final SendableChooser<Command> autoChooser;
 
-    public PathPlannerPath newpath;
+    private PathPlannerPath newpath;
 
-    public void LimelightPathplannerPath () {
+    private void LimelightPathplannerPath () {
         List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
-            new Pose2d(m_limelight.llPose[0], m_limelight.llPose[1], Rotation2d.fromDegrees(m_limelight.llPose[5])),
+            new Pose2d(m_limelight.llPose[0], m_limelight.llPose[2], Rotation2d.fromDegrees(m_limelight.llPose[4])),
             new Pose2d(5.700, 3.800, Rotation2d.fromDegrees(180)));
 
         PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
@@ -77,28 +77,26 @@ public class RobotContainer {
             new GoalEndState(0.0, Rotation2d.fromDegrees(180)));
     }
 
-    public void PathPlannerFollowPath (PathPlannerPath path) {
-        AutoBuilder.followPath(path);
+    private void tPathPlannerFollowPath () {
+        //AutoBuilder.followPath(path);
+        try {
+            System.out.println("Entered tPathplannerFollowPath");
+            System.out.flush();
+            m_robotDrive.resetPose(new Pose2d(m_limelight.llPose[0], m_limelight.llPose[2], Rotation2d.fromDegrees(m_limelight.llPose[4])));
+            SmartDashboard.putString("infos", "Entered PathplannerFollowPath");
+            PathPlannerPath path = PathPlannerPath.fromPathFile("test");
+            System.out.println("Completing tPathplannerFollowPath");
+            System.out.flush();
+            SmartDashboard.putString("infos", "Completing PathplannerFollowPath");
+            System.out.println("Calling AutoBuiler");
+            System.out.flush();
+            AutoBuilder.followPath(path);
+            System.out.println("Finished AutoBuiler");
+            System.out.flush();
+        } catch (Exception e) {
+            SmartDashboard.putString("error", "ERROR: " + e);
+        }
     }
-
-    
-/* 
-    public void LimelightPathplannerPath (PathPlannerPath newpath) {
-        List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
-            new Pose2d(m_limelight.llPose [0], m_limelight.llPose [2], Rotation2d.fromDegrees(m_limelight.llPose [4])),
-            new Pose2d(5.700, 3.800, Rotation2d.fromDegrees(180)));
-
-        PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
-
-        PathPlannerPath path = new PathPlannerPath(
-        waypoints,
-        constraints,
-        null,
-        new GoalEndState(0.0, Rotation2d.fromDegrees(180)));
-
-        newpath = path;
-    }
-*/
         
     /**
     * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -113,22 +111,18 @@ public class RobotContainer {
                     () -> m_lights.setLEDs(LightsConstants.GOLD),
                     m_lights));
 
-        NamedCommands.registerCommand("Limelight Start to A", new SequentialCommandGroup(
-                    new InstantCommand(
-                        () -> LimelightPathplannerPath(), m_limelight),
-                    new InstantCommand(
-                        () -> PathPlannerFollowPath(newpath))));
-
         /* 
         NamedCommands.registerCommand("Limelight Start to A", new InstantCommand(
             FollowPathCommand(LimelightPathplannerPath.PathPlannerPath.path)
         )); */
 
-        /*NamedCommands.registerCommand("Limelight Start to A", new SequentialCommandGroup(
-                    PathPlannerPath newpath;
+        NamedCommands.registerCommand("Limelight Start to A", new SequentialCommandGroup(
+                    /*new InstantCommand(
+                        () -> LimelightPathplannerPath(), m_limelight),*/
                     new InstantCommand(
-                        () -> LimelightPathplannerPath(newpath)),
-                    new FollowPathCommand(newpath)));*/
+                        () -> tPathPlannerFollowPath()))
+                    //,m_robotDrive.followPathCommand("test"))
+            );
 
         //Violet represents the elevator going to level 4 during transit
         NamedCommands.registerCommand("Violet", new InstantCommand(
@@ -197,10 +191,19 @@ public class RobotContainer {
                  () -> m_robotDrive.strafeLeft(),
                  m_robotDrive));
 
-         new JoystickButton(m_rightDriverController,OIConstants.kJS_RB)
-             .whileTrue(new RunCommand(
-                 () -> m_robotDrive.strafeRight(),
-                 m_robotDrive));
+         new JoystickButton(m_rightDriverController, OIConstants.kJS_RB)
+             .onTrue(new 
+                 AlignToReefTagRelative(false, m_robotDrive)
+                 /*() -> m_robotDrive.strafeRight(),
+                 m_robotDrive));*/
+             );
+
+        new JoystickButton(m_rightDriverController, 5)
+             .onTrue(new 
+                 AlignToReefTagRelative(true, m_robotDrive)
+                 /*() -> m_robotDrive.strafeRight(),
+                 m_robotDrive));*/
+             );
        
         new JoystickButton(m_leftDriverController, OIConstants.kJS_RB).debounce(0.1)  //Gyro reset
             .whileTrue(new InstantCommand(
