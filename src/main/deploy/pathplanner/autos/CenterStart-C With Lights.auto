@@ -9,9 +9,9 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Limelight Start to A"
+                  "pathName": "CenterStart-A Left"
                 }
               },
               {
@@ -118,7 +118,7 @@
       ]
     }
   },
-  "resetOdom": true,
+  "resetOdom": false,
   "folder": null,
   "choreoAuto": false
 }
