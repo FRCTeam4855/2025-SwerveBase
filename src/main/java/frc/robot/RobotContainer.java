@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.LightsConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.AlignToReefTagRelative;
+//import frc.robot.commands.AlignToReefTagRelative;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -192,18 +192,16 @@ public class RobotContainer {
                  m_robotDrive));
 
          new JoystickButton(m_rightDriverController, OIConstants.kJS_RB)
-             .onTrue(new 
-                 AlignToReefTagRelative(false, m_robotDrive)
-                 /*() -> m_robotDrive.strafeRight(),
-                 m_robotDrive));*/
-             );
+             .onTrue(new RunCommand(
+                 //AlignToReefTagRelative(false, m_robotDrive)
+                 () -> m_robotDrive.strafeRight(),
+                 m_robotDrive));
 
         new JoystickButton(m_rightDriverController, 5)
-             .onTrue(new 
-                 AlignToReefTagRelative(true, m_robotDrive)
-                 /*() -> m_robotDrive.strafeRight(),
-                 m_robotDrive));*/
-             );
+             .onTrue(new RunCommand(
+                 //AlignToReefTagRelative(true, m_robotDrive)
+                 () -> m_robotDrive.strafeRight(),
+                 m_robotDrive));
        
         new JoystickButton(m_leftDriverController, OIConstants.kJS_RB).debounce(0.1)  //Gyro reset
             .whileTrue(new InstantCommand(

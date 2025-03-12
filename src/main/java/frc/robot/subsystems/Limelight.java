@@ -9,6 +9,10 @@ public class Limelight extends SubsystemBase {
   public double[] tagPose;
   public double[] llPose;
 
+  public Limelight() {
+    LimelightHelpers.SetIMUMode("limelight", 1);
+  }
+
   @Override
   public void periodic() {
     tagPose = LimelightHelpers.getTargetPose_RobotSpace("limelight"); //tx = [0] ty = [1] tz = [2] roll = [3] pitch = [4] yaw = [5]
