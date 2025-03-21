@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.LightsConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveWithAprilTagCommand;
+import frc.robot.commands.DriveWithAprilTagCommandOffset;
 import frc.robot.commands.TimedLeftStrafeCommand;
 import frc.robot.commands.TimedRightStrafeCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -93,13 +94,13 @@ public class RobotContainer {
                 () -> m_robotDrive.setX(),
                 m_robotDrive));
 
-        new JoystickButton(m_leftDriverController,OIConstants.kJS_LB)
-            .onTrue(new TimedLeftStrafeCommand(
-                 m_robotDrive));
+        new JoystickButton(m_leftDriverController, OIConstants.kJS_LB)
+            .whileTrue(new DriveWithAprilTagCommandOffset(
+                m_robotDrive, m_limelight, m_leftDriverController, m_rightDriverController, true));
 
-        new JoystickButton(m_leftDriverController,OIConstants.kJS_RB)
-            .onTrue(new TimedRightStrafeCommand(
-                 m_robotDrive));
+        new JoystickButton(m_leftDriverController, OIConstants.kJS_RB)
+            .whileTrue(new DriveWithAprilTagCommandOffset(
+                m_robotDrive, m_limelight, m_leftDriverController, m_rightDriverController, false));
        
         new JoystickButton(m_rightDriverController, OIConstants.kJS_RB).debounce(0.1)  //Gyro reset
             .whileTrue(new InstantCommand(

@@ -130,7 +130,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return
    */
   private double getStdAngle() {
-    return m_gyro.getAngle()  * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+    return m_gyro.getYaw()  * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
   @Override
