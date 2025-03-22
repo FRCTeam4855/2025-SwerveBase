@@ -10,7 +10,7 @@ public class LightsSubsystem extends Subsystem {
 
     @Override
     public void robotInit() {
-        DataLogManager.log("LightsSubsystem in autonomousInit");
+        DataLogManager.log("LightsSubsystem in robotInit");
     }
 
     @Override

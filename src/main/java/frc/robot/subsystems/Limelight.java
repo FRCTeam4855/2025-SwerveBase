@@ -11,7 +11,7 @@ public class Limelight extends Subsystem {
   
   @Override
   public void robotInit() {
-    DataLogManager.log("LimelightSubsystem in autonomousInit");
+    DataLogManager.log("LimelightSubsystem in robotInit");
   }
 
   @Override

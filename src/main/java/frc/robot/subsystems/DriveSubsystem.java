@@ -112,7 +112,7 @@ public class DriveSubsystem extends Subsystem {
 
   @Override
   public void robotInit() {
-    DataLogManager.log("DriveSubsystem in autonomousInit");
+    DataLogManager.log("DriveSubsystem in robotInit");
   }
 
   @Override
