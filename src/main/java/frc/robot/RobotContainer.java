@@ -5,8 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
+//import edu.wpi.first.math.geometry.Pose2d;
+//import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.LightsConstants;
 import frc.robot.Constants.OIConstants;
-//import frc.robot.commands.AlignToReefTagRelative;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -24,19 +23,9 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import java.util.List;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.FollowPathCommand;
-import com.pathplanner.lib.path.GoalEndState;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.Waypoint;
 
-
-//import frc.robot.subsystems.Limelight;
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -46,8 +35,8 @@ import com.pathplanner.lib.path.Waypoint;
 public class RobotContainer {
 
     // The robot's subsystems
-    public static DriveSubsystem m_robotDrive = new DriveSubsystem();
-    private final LightsSubsystem m_lights = new LightsSubsystem();
+    public final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    public final LightsSubsystem m_lights = new LightsSubsystem();
     public Limelight m_limelight = new Limelight();
    
 
@@ -61,7 +50,7 @@ public class RobotContainer {
     public double speedMultiplier = OIConstants.kSpeedMultiplierDefault;
     private final SendableChooser<Command> autoChooser;
 
-    private PathPlannerPath newpath;
+    /*private PathPlannerPath newpath;
 
     private void LimelightPathplannerPath () {
         List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
@@ -75,9 +64,9 @@ public class RobotContainer {
             constraints,
             null,
             new GoalEndState(0.0, Rotation2d.fromDegrees(180)));
-    }
+    }*/
 
-    private void tPathPlannerFollowPath () {
+    /*private void tPathPlannerFollowPath () {
         //AutoBuilder.followPath(path);
         try {
             System.out.println("Entered tPathplannerFollowPath");
@@ -96,7 +85,7 @@ public class RobotContainer {
         } catch (Exception e) {
             SmartDashboard.putString("error", "ERROR: " + e);
         }
-    }
+    }*/
         
     /**
     * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -116,13 +105,13 @@ public class RobotContainer {
             FollowPathCommand(LimelightPathplannerPath.PathPlannerPath.path)
         )); */
 
-        NamedCommands.registerCommand("Limelight Start to A", new SequentialCommandGroup(
-                    /*new InstantCommand(
-                        () -> LimelightPathplannerPath(), m_limelight),*/
+        /*NamedCommands.registerCommand("Limelight Start to A", new SequentialCommandGroup(
+                    //new InstantCommand(
+                    //    () -> LimelightPathplannerPath(), m_limelight),
                     new InstantCommand(
                         () -> tPathPlannerFollowPath()))
                     //,m_robotDrive.followPathCommand("test"))
-            );
+            ); */
 
         //Violet represents the elevator going to level 4 during transit
         NamedCommands.registerCommand("Violet", new InstantCommand(
