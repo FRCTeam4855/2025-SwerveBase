@@ -1,28 +1,30 @@
 {
-  "robotWidth": 0.9,
-  "robotLength": 0.9,
+  "robotWidth": 0.89,
+  "robotLength": 0.89,
   "holonomicMode": true,
   "pathFolders": [
     "A Paths",
     "B Paths",
     "C Paths",
     "D Paths",
+    "E Paths",
     "F Paths",
-    "E Paths"
+    "Distance Testing"
   ],
   "autoFolders": [
+    "3 Coral Autons",
     "4 Coral Autons",
-    "3 Coral Autons"
+    "Distance Testing"
   ],
-  "defaultMaxVel": 3.0,
-  "defaultMaxAccel": 3.0,
+  "defaultMaxVel": 2.5,
+  "defaultMaxAccel": 2.5,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,
-  "robotMass": 40.0,
-  "robotMOI": 6.883,
+  "robotMass": 40.3697,
+  "robotMOI": 5.32951283333,
   "robotTrackwidth": 0.546,
-  "driveWheelRadius": 0.0485,
+  "driveWheelRadius": 0.048,
   "driveGearing": 6.122,
   "maxDriveSpeed": 4.0,
   "driveMotorType": "NEO",
