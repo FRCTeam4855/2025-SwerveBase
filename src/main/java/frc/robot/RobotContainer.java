@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.LightsConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AlignToReefTagRelative;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -25,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.wpilibj.DataLogManager;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -135,7 +137,16 @@ public class RobotContainer {
                     m_lights),
                     new WaitCommand(.3)
                     ));
-        
+
+        NamedCommands.registerCommand("Align Left Reef Branch", new SequentialCommandGroup(
+            new AlignToReefTagRelative(false, m_robotDrive),
+            new InstantCommand(() -> DataLogManager.log("Left reef alignment completed"))
+                    ));
+
+        NamedCommands.registerCommand("Align Right Reef Branch", new SequentialCommandGroup(
+            new AlignToReefTagRelative(true, m_robotDrive),
+            new InstantCommand(() -> DataLogManager.log("Right reef alignment completed"))
+            ));
 
 
         // Configure the button bindings
@@ -211,18 +222,24 @@ public class RobotContainer {
         
         // Operator Controls
 
-        m_operatorController1.a()
+        /*m_operatorController1.a()
             .whileTrue(new RunCommand(
                 () -> m_lights.setLEDs(LightsConstants.GREEN),
-                m_lights));
-        m_operatorController1.x()
-            .whileTrue(new RunCommand(
-                () -> m_lights.setLEDs(LightsConstants.RED),
                 m_lights));
         m_operatorController1.b()
             .whileTrue(new RunCommand(
                 () -> m_lights.setLEDs(LightsConstants.VIOLET),
                 m_lights));
+        m_operatorController1.x()
+            .whileTrue(new RunCommand(
+                () -> m_lights.setLEDs(LightsConstants.RED),
+                m_lights));*/
+                
+        m_operatorController1.x()
+            .onTrue(NamedCommands.getCommand("Align Left Reef Branch"));
+        m_operatorController1.b()
+            .onTrue(NamedCommands.getCommand("Align Right Reef Branch"));
+
         m_operatorController1.y()
             .whileTrue(new RunCommand(
                 () -> m_lights.setLEDs(LightsConstants.GOLD),
