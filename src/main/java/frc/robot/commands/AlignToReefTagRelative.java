@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -66,6 +67,13 @@ public class AlignToReefTagRelative extends Command {
         }
             
         drivebase.drive(new Translation2d(yController.getError() < Constants.ReefAlignConstants.Y_TOLERANCE_REEF_ALIGNMENT ? xSpeed : 0, ySpeed), rotValue, false);
+        if (!rotController.atSetpoint())
+            DataLogManager.log("not rotSetpoint");
+        if (!yController.atSetpoint())
+            DataLogManager.log("not ySetpoint");
+        if ( !xController.atSetpoint())
+            DataLogManager.log("not xSetpoint");
+
         if (!rotController.atSetpoint() ||
             !yController.atSetpoint() ||
             !xController.atSetpoint()) {
