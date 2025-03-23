@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.LightsConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AlignToReefTagRelative;
+import frc.robot.commands.PushAgainstElement;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -44,7 +45,7 @@ public class RobotContainer {
         }
         return mInstance;
     }
-    
+
     // The robot's subsystems
     public final DriveSubsystem m_robotDrive = new DriveSubsystem();
     public final LightsSubsystem m_lights = new LightsSubsystem();
@@ -149,13 +150,19 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("Align Left Reef Branch", new SequentialCommandGroup(
             new AlignToReefTagRelative(false, m_robotDrive),
+            new PushAgainstElement(m_robotDrive, .25, 0.25),
             new InstantCommand(() -> DataLogManager.log("Left reef alignment completed"))
                     ));
 
         NamedCommands.registerCommand("Align Right Reef Branch", new SequentialCommandGroup(
             new AlignToReefTagRelative(true, m_robotDrive),
+            new PushAgainstElement(m_robotDrive, 0.25, 0.25),
             new InstantCommand(() -> DataLogManager.log("Right reef alignment completed"))
             ));
+
+        //Take up any space between the robot and the human player station
+        NamedCommands.registerCommand("Go To Feeder Station", 
+            new PushAgainstElement(m_robotDrive, -0.5, 0.5) );
 
 
         // Configure the button bindings
