@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.pathplanner.lib.commands.FollowPathCommand;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Subsystem;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -41,7 +42,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());
-    m_robotContainer = RobotContainer.getInstance();
+    m_robotContainer = new RobotContainer();
 
     FollowPathCommand.warmupCommand().schedule();
 
@@ -69,6 +70,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    m_robotContainer.m_robotDrive.updateOdometry();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -83,6 +85,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_allSubsystems.forEach(subsystem -> subsystem.autonomousInit());
 
+    m_robotContainer.m_robotDrive.resetPose(new Pose2d(m_robotContainer.m_limelight.llPose[0], m_robotContainer.m_limelight.llPose[1], Rotation2d.fromDegrees(m_robotContainer.m_limelight.llPose[5])));
+    
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();//m_autoSelectedString);
 
     // schedule the autonomous command (example)
@@ -105,6 +109,11 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
+    RobotContainer.fieldOriented = true;
+    if (m_robotContainer.m_limelight.llPose[0] != 0) {
+      m_robotContainer.m_robotDrive.resetPose(new Pose2d(m_robotContainer.m_limelight.llPose[0], m_robotContainer.m_limelight.llPose[1], Rotation2d.fromDegrees(m_robotContainer.m_limelight.llPose[5])));
+    }
+    
     m_allSubsystems.forEach(subsystem -> subsystem.teleopInit());
     //m_autonomousCommand = m_robotContainer.getAutonomousCommand();//m_autoSelectedString);
   }

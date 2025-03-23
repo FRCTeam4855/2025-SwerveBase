@@ -37,15 +37,6 @@ import edu.wpi.first.wpilibj.DataLogManager;
  */
 public class RobotContainer {
 
-    private static RobotContainer mInstance;
-
-    public static RobotContainer getInstance() {
-        if (mInstance == null) {
-            mInstance = new RobotContainer();
-        }
-        return mInstance;
-    }
-
     // The robot's subsystems
     public final DriveSubsystem m_robotDrive = new DriveSubsystem();
     public final LightsSubsystem m_lights = new LightsSubsystem();
