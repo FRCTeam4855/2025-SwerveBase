@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.LimelightHelpers;
+import frc.robot.RobotContainer;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -57,6 +58,8 @@ public class DriveSubsystem extends Subsystem {
   }
 
   RobotConfig config;
+  private final RobotContainer m_robotContainer = RobotContainer.getInstance();
+
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       DriveConstants.kFrontLeftDrivingCanId,
@@ -118,11 +121,18 @@ public class DriveSubsystem extends Subsystem {
   @Override
   public void autonomousInit() {
     DataLogManager.log("DriveSubsystem in autonomousInit");
+
+    resetPose(new Pose2d(m_robotContainer.m_limelight.llPose[0], m_robotContainer.m_limelight.llPose[1], Rotation2d.fromDegrees(m_robotContainer.m_limelight.llPose[5])));
   }
 
   @Override
   public void teleopInit() {
     DataLogManager.log("DriveSubsystem in teleopInit");
+
+    RobotContainer.fieldOriented = true;
+    if (m_robotContainer.m_limelight.llPose[0] != 0) {
+      m_robotContainer.m_robotDrive.resetPose(new Pose2d(m_robotContainer.m_limelight.llPose[0], m_robotContainer.m_limelight.llPose[1], Rotation2d.fromDegrees(m_robotContainer.m_limelight.llPose[5])));
+    }
   }
 
   /** Creates a new DriveSubsystem. */
@@ -226,6 +236,7 @@ public class DriveSubsystem extends Subsystem {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
+    updateOdometry();
     m_odometry.update(
       Rotation2d.fromDegrees(getStdAngle()),
       new SwerveModulePosition[] {
@@ -235,7 +246,8 @@ public class DriveSubsystem extends Subsystem {
         m_rearRight.getPosition()
       }
     );
-        
+      
+    
     //fieldRelative = fieldOriented;
 
     m_field.setRobotPose(m_odometry.getPoseMeters()); //4855

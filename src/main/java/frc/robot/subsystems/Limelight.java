@@ -17,6 +17,8 @@ public class Limelight extends Subsystem {
   @Override
   public void autonomousInit() {
     DataLogManager.log("LimelightSubsystem in autonomousInit");
+
+    LimelightHelpers.SetIMUMode("limelight", 2); // Set IMU to 2D mode
   }
 
   @Override
