@@ -12,9 +12,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LightsSubsystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Subsystem;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -47,9 +48,9 @@ public class Robot extends TimedRobot {
     FollowPathCommand.warmupCommand().schedule();
 
     //Add all subsystems to the list
-    m_allSubsystems.add(m_robotContainer.m_robotDrive);
-    m_allSubsystems.add(m_robotContainer.m_limelight);
-    m_allSubsystems.add(m_robotContainer.m_lights);
+    m_allSubsystems.add(DriveSubsystem.getInstance());
+    m_allSubsystems.add(Limelight.getInstance());
+    m_allSubsystems.add(LightsSubsystem.getInstance());
 
     m_allSubsystems.forEach(subsystem -> subsystem.robotInit());
   }
@@ -84,10 +85,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_allSubsystems.forEach(subsystem -> subsystem.autonomousInit());
-
-    m_robotContainer.m_robotDrive.resetPose(new Pose2d(m_robotContainer.m_limelight.llPose[0], m_robotContainer.m_limelight.llPose[1], Rotation2d.fromDegrees(m_robotContainer.m_limelight.llPose[5])));
     
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();//m_autoSelectedString);
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -107,11 +106,6 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-    }
-
-    RobotContainer.fieldOriented = true;
-    if (m_robotContainer.m_limelight.llPose[0] != 0) {
-      m_robotContainer.m_robotDrive.resetPose(new Pose2d(m_robotContainer.m_limelight.llPose[0], m_robotContainer.m_limelight.llPose[1], Rotation2d.fromDegrees(m_robotContainer.m_limelight.llPose[5])));
     }
     
     m_allSubsystems.forEach(subsystem -> subsystem.teleopInit());

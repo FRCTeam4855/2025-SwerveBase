@@ -23,6 +23,14 @@ public class LightsSubsystem extends Subsystem {
         DataLogManager.log("LightsSubsystem in teleopInit");
     }
 
+    private static LightsSubsystem mInstance;
+    public static LightsSubsystem getInstance() {
+      if (mInstance == null) {
+        mInstance = new LightsSubsystem();
+      }
+      return mInstance;
+    }
+  
     public LightsSubsystem() {
         m_Blinkin = new Spark(0);
         setLEDs(LightsConstants.C1_AND_C2_SINELON);

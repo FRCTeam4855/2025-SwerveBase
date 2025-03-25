@@ -38,10 +38,9 @@ import edu.wpi.first.wpilibj.DataLogManager;
 public class RobotContainer {
 
     // The robot's subsystems
-    public final DriveSubsystem m_robotDrive = new DriveSubsystem();
-    public final LightsSubsystem m_lights = new LightsSubsystem();
-    public Limelight m_limelight = new Limelight();
-   
+    public final DriveSubsystem m_robotDrive = DriveSubsystem.getInstance();
+    public final LightsSubsystem m_lights = LightsSubsystem.getInstance();
+    public Limelight m_limelight = Limelight.getInstance();
 
     // The driver's controller
     Joystick m_leftDriverController = new Joystick(OIConstants.kLeftDriverControllerPort);

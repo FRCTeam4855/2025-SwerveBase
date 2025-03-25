@@ -27,6 +27,14 @@ public class Limelight extends Subsystem {
     LimelightHelpers.SetIMUMode("limelight", 2); // Set IMU to 2D mode
   }
 
+  private static Limelight mInstance;
+  public static Limelight getInstance() {
+    if (mInstance == null) {
+      mInstance = new Limelight();
+    }
+    return mInstance;
+  }
+
   public Limelight() {
     LimelightHelpers.SetIMUMode("limelight", 1);
   }
