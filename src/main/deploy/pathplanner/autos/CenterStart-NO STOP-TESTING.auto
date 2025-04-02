@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CenterStart-A Left"
+            "pathName": "CenterStart-ACenter-NoStop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Align Left Reef Branch"
           }
         }
       ]

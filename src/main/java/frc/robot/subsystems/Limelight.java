@@ -18,13 +18,13 @@ public class Limelight extends Subsystem {
   public void autonomousInit() {
     DataLogManager.log("LimelightSubsystem in autonomousInit");
 
-    LimelightHelpers.SetIMUMode("limelight", 2); // Set IMU to 2D mode
+   // LimelightHelpers.SetIMUMode("limelight", 2); // Set IMU to 2D mode
   }
 
   @Override
   public void teleopInit() {
     DataLogManager.log("LimelightSubsystem in teleopInit");
-    LimelightHelpers.SetIMUMode("limelight", 2); // Set IMU to 2D mode
+   // LimelightHelpers.SetIMUMode("limelight", 2); // Set IMU to 2D mode
   }
 
   private static Limelight mInstance;
@@ -36,7 +36,7 @@ public class Limelight extends Subsystem {
   }
 
   public Limelight() {
-    LimelightHelpers.SetIMUMode("limelight", 1);
+  //  LimelightHelpers.SetIMUMode("limelight", 1);
   }
 
   @Override

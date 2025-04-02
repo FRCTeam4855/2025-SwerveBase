@@ -12,9 +12,13 @@
     "Distance Testing"
   ],
   "autoFolders": [
-    "3 Coral Autons",
-    "4 Coral Autons",
-    "Distance Testing"
+    "1 Coral",
+    "2 Coral",
+    "3 Coral",
+    "4 Coral",
+    "Distance Testing + Extra",
+    "TESTING",
+    "Two Coral Limelight"
   ],
   "defaultMaxVel": 2.5,
   "defaultMaxAccel": 2.5,

@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BottomStart-CenterB"
+            "pathName": "CenterStart-ACenter-NoStop"
           }
         },
         {
@@ -25,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BCenter-BottomFeeder"
+            "pathName": "A Center-BottomFeeder"
           }
         },
         {
@@ -43,7 +43,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BottomFeeder-C Center"
+            "pathName": "BottomFeeder-C Center-NO STOP"
           }
         },
         {
