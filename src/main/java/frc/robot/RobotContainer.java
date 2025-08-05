@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.LightsConstants;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AlignToReefTagRelative;
 import frc.robot.commands.PushAgainstElement;
@@ -25,6 +26,9 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import javax.naming.Name;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -153,6 +157,36 @@ public class RobotContainer {
         //Take up any space between the robot and the human player station
         NamedCommands.registerCommand("Go To Feeder Station", 
             new PushAgainstElement(m_robotDrive, -0.5, 0.5) );
+
+        NamedCommands.registerCommand("Filter Limelight Red Center", new SequentialCommandGroup(
+            new InstantCommand(() -> m_limelight.setFilters(LimelightConstants.kRedCenterAutoIDs))));
+
+        NamedCommands.registerCommand("Filter Limelight Red Side", new SequentialCommandGroup(
+            new InstantCommand(() -> m_limelight.setFilters(LimelightConstants.kRedSideAutoIDs))));
+
+        NamedCommands.registerCommand("Filter Limelight Blue Center", new SequentialCommandGroup(
+            new InstantCommand(() -> m_limelight.setFilters(LimelightConstants.kBlueCenterAutoIDs))));
+
+        NamedCommands.registerCommand("Filter Limelight Blue Side", new SequentialCommandGroup(
+            new InstantCommand(() -> m_limelight.setFilters(LimelightConstants.kBlueSideAutoIDs))));
+
+        NamedCommands.registerCommand("Filter Reset", new SequentialCommandGroup(
+            new InstantCommand(() -> m_limelight.setFilters(LimelightConstants.kAllIDs))));
+
+        new JoystickButton(m_rightDriverController, 6)
+        .onTrue(NamedCommands.getCommand("Filter Limelight Red Center"));
+
+        new JoystickButton(m_rightDriverController, 7)
+        .onTrue(NamedCommands.getCommand("Filter Limelight Red Side"));
+
+        new JoystickButton(m_rightDriverController, 11)
+        .onTrue(NamedCommands.getCommand("Filter Limelight Blue Center"));
+
+        new JoystickButton(m_rightDriverController, 10)
+        .onTrue(NamedCommands.getCommand("Filter Limelight Blue Side"));
+
+        new JoystickButton(m_rightDriverController, 8)
+        .onTrue(NamedCommands.getCommand("Filter Reset"));
 
 
         // Configure the button bindings

@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.LimelightHelpers;
 
 public class Limelight extends Subsystem {
@@ -24,6 +25,7 @@ public class Limelight extends Subsystem {
   @Override
   public void teleopInit() {
     DataLogManager.log("LimelightSubsystem in teleopInit");
+    resetFilters();
    // LimelightHelpers.SetIMUMode("limelight", 2); // Set IMU to 2D mode
   }
 
@@ -37,6 +39,23 @@ public class Limelight extends Subsystem {
 
   public Limelight() {
   //  LimelightHelpers.SetIMUMode("limelight", 1);
+  }
+
+  public void setOffset(double xOffset) {
+    LimelightHelpers.setFiducial3DOffset("limelight", 0, xOffset, 0);
+  }
+
+  public void setFilters(int[] validIDs) {
+    LimelightHelpers.SetFiducialIDFiltersOverride("limelight", validIDs);
+  }
+
+  public void resetFilters() {
+    LimelightHelpers.SetFiducialIDFiltersOverride("limelight", LimelightConstants.kAllIDs);
+  }
+
+  public void initialize() {
+    LimelightHelpers.SetFiducialIDFiltersOverride("limelight", LimelightConstants.kAllIDs);
+    LimelightHelpers.SetFidcuial3DOffset("limelight", 0, 0, 0);
   }
 
   @Override

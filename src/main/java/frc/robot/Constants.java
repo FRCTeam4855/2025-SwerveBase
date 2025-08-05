@@ -290,4 +290,11 @@ public final class Constants {
 	  public static final double DONT_SEE_TAG_WAIT_TIME = 0.2;
 	  public static final double POSE_VALIDATION_TIME = 0.3;
   }
+  public static final class LimelightConstants {
+    public static final int[] kAllIDs = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 };
+    public static final int[] kRedCenterAutoIDs = { 6, 8, 10 };
+    public static final int[] kRedSideAutoIDs = { 6, 8, 9, 11 };
+    public static final int[] kBlueCenterAutoIDs = { 17, 19, 21 };
+    public static final int[] kBlueSideAutoIDs = { 17, 19, 20, 22 };
+  }
 }
