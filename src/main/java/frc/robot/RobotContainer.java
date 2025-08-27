@@ -20,11 +20,14 @@ import frc.robot.commands.TimedRightStrafeCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.SysId;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 
 //import frc.robot.subsystems.Limelight;
@@ -40,6 +43,7 @@ public class RobotContainer {
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final LightsSubsystem m_lights = new LightsSubsystem();
     private final Limelight m_limelight = new Limelight();
+    private final SysId m_sysId = new SysId();
    
 
     // The driver's controller
@@ -127,13 +131,9 @@ public class RobotContainer {
         // Operator Controls
 
         m_operatorController1.a()
-            .whileTrue(new RunCommand(
-                () -> m_lights.setLEDs(LightsConstants.GREEN),
-                m_lights));
+            .whileTrue(m_sysId.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
         m_operatorController1.x()
-            .whileTrue(new RunCommand(
-                () -> m_lights.setLEDs(LightsConstants.RED),
-                m_lights));
+            .whileTrue(m_sysId.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         m_operatorController1.b()
             .whileTrue(new RunCommand(
                 () -> m_lights.setLEDs(LightsConstants.VIOLET),
