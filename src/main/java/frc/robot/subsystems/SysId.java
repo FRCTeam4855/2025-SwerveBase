@@ -8,11 +8,16 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import edu.wpi.first.units.VoltageUnit;
 import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
+import edu.wpi.first.units.measure.Velocity;
+
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
@@ -34,9 +39,10 @@ public class SysId extends SubsystemBase{
   private final MutDistance m_distance = Meters.mutable(0);
   private final MutLinearVelocity m_velocity = MetersPerSecond.mutable(0);
 
+  public final Velocity<VoltageUnit> m_rampRate = Velocity.ofRelativeUnits(2.0, Volts.per(Second));
     private final SysIdRoutine m_sysIdRoutine =
       new SysIdRoutine(
-          new SysIdRoutine.Config(),
+          new SysIdRoutine.Config(m_rampRate, null, Seconds.of(5.0)),
           new SysIdRoutine.Mechanism(
               voltage -> {
                 m_frontDriveRight.setVoltage(voltage);

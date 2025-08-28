@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.LightsConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.DriveWithAprilTagCommand;
-import frc.robot.commands.DriveWithAprilTagCommandOffset;
-import frc.robot.commands.TimedLeftStrafeCommand;
-import frc.robot.commands.TimedRightStrafeCommand;
-import frc.robot.subsystems.DriveSubsystem;
+// import frc.robot.commands.DriveWithAprilTagCommand;
+// import frc.robot.commands.DriveWithAprilTagCommandOffset;
+// import frc.robot.commands.TimedLeftStrafeCommand;
+// import frc.robot.commands.TimedRightStrafeCommand;
+// import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SysId;
@@ -40,7 +40,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 public class RobotContainer {
 
     // The robot's subsystems
-    private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    //private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final LightsSubsystem m_lights = new LightsSubsystem();
     private final Limelight m_limelight = new Limelight();
     private final SysId m_sysId = new SysId();
@@ -54,7 +54,7 @@ public class RobotContainer {
 
     public static boolean fieldOriented = false;
     public double speedMultiplier = OIConstants.kSpeedMultiplierDefault;
-    private final SendableChooser<Command> autoChooser;
+    //private final SendableChooser<Command> autoChooser;
 
     /**
     * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -65,19 +65,19 @@ public class RobotContainer {
         configureButtonBindings();
 
         // Configure default commands
-        m_robotDrive.setDefaultCommand(
-        // The left Joystick controls translation of the robot.
-        // The right Joystick controls rotation of the robot.
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_leftDriverController.getRawAxis(1) * speedMultiplier, OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_leftDriverController.getRawAxis(0) * speedMultiplier, OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_rightDriverController.getRawAxis(0) * speedMultiplier, OIConstants.kDriveDeadband) * OIConstants.kRotateScale,
-                fieldOriented, true),
-            m_robotDrive));
+        // m_robotDrive.setDefaultCommand(
+        // // The left Joystick controls translation of the robot.
+        // // The right Joystick controls rotation of the robot.
+        // new RunCommand(
+        //     () -> m_robotDrive.drive(
+        //         -MathUtil.applyDeadband(m_leftDriverController.getRawAxis(1) * speedMultiplier, OIConstants.kDriveDeadband),
+        //         -MathUtil.applyDeadband(m_leftDriverController.getRawAxis(0) * speedMultiplier, OIConstants.kDriveDeadband),
+        //         -MathUtil.applyDeadband(m_rightDriverController.getRawAxis(0) * speedMultiplier, OIConstants.kDriveDeadband) * OIConstants.kRotateScale,
+        //         fieldOriented, true),
+        //     m_robotDrive));
 
-            autoChooser = AutoBuilder.buildAutoChooser(); 
-            SmartDashboard.putData("Auto Chooser", autoChooser);             
+            // autoChooser = AutoBuilder.buildAutoChooser(); 
+            // SmartDashboard.putData("Auto Chooser", autoChooser);             
     }
 
     /**
@@ -93,23 +93,23 @@ public class RobotContainer {
     
 ////    Driver Controls
 
-       new JoystickButton(m_leftDriverController,OIConstants.kJS_BB)
-            .whileTrue(new RunCommand(
-                () -> m_robotDrive.setX(),
-                m_robotDrive));
+    //    new JoystickButton(m_leftDriverController,OIConstants.kJS_BB)
+    //         .whileTrue(new RunCommand(
+    //             () -> m_robotDrive.setX(),
+    //             m_robotDrive));
 
-        new JoystickButton(m_leftDriverController, OIConstants.kJS_LB)
-            .whileTrue(new DriveWithAprilTagCommandOffset(
-                m_robotDrive, m_limelight, m_leftDriverController, m_rightDriverController, true));
+    //     new JoystickButton(m_leftDriverController, OIConstants.kJS_LB)
+    //         .whileTrue(new DriveWithAprilTagCommandOffset(
+    //             m_robotDrive, m_limelight, m_leftDriverController, m_rightDriverController, true));
 
-        new JoystickButton(m_leftDriverController, OIConstants.kJS_RB)
-            .whileTrue(new DriveWithAprilTagCommandOffset(
-                m_robotDrive, m_limelight, m_leftDriverController, m_rightDriverController, false));
+    //     new JoystickButton(m_leftDriverController, OIConstants.kJS_RB)
+    //         .whileTrue(new DriveWithAprilTagCommandOffset(
+    //             m_robotDrive, m_limelight, m_leftDriverController, m_rightDriverController, false));
        
-        new JoystickButton(m_rightDriverController, OIConstants.kJS_RB).debounce(0.1)  //Gyro reset
-            .whileTrue(new InstantCommand(
-                () -> m_robotDrive.zeroHeading(),
-                m_robotDrive)); 
+    //     new JoystickButton(m_rightDriverController, OIConstants.kJS_RB).debounce(0.1)  //Gyro reset
+    //         .whileTrue(new InstantCommand(
+    //             () -> m_robotDrive.zeroHeading(),
+    //             m_robotDrive)); 
 
         new JoystickButton(m_rightDriverController, OIConstants.kJS_LB)  //Field oriented toggle
             .whileTrue(new InstantCommand(
@@ -123,17 +123,17 @@ public class RobotContainer {
             .whileFalse(new InstantCommand(
                 () -> speedMultiplier=OIConstants.kSpeedMultiplierDefault));
 
-        new JoystickButton(m_leftDriverController, OIConstants.kJS_Trigger)
-            .whileTrue(new DriveWithAprilTagCommand(
-            m_robotDrive, m_limelight, m_leftDriverController, m_rightDriverController));
+        // new JoystickButton(m_leftDriverController, OIConstants.kJS_Trigger)
+        //     .whileTrue(new DriveWithAprilTagCommand(
+        //     m_robotDrive, m_limelight, m_leftDriverController, m_rightDriverController));
         
         
         // Operator Controls
 
         m_operatorController1.a()
-            .whileTrue(m_sysId.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+            .onTrue(m_sysId.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
         m_operatorController1.x()
-            .whileTrue(m_sysId.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+            .onTrue(m_sysId.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         m_operatorController1.b()
             .whileTrue(new RunCommand(
                 () -> m_lights.setLEDs(LightsConstants.VIOLET),
@@ -179,7 +179,7 @@ public class RobotContainer {
      */
 
 
-    public Command getAutonomousCommand() {
-        return autoChooser.getSelected();
-    }
+    // public Command getAutonomousCommand() {
+    //     return autoChooser.getSelected();
+    // }
 }
