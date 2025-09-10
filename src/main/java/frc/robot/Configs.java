@@ -39,7 +39,7 @@ public final class Configs {
              //TURN CONFIG
 
             turnConfig
-                .idleMode(ModuleConstants.kDrivingMotorIdleMode)
+                .idleMode(ModuleConstants.kTurningMotorIdleMode)
                 .smartCurrentLimit(ModuleConstants.kTurningMotorCurrentLimit);
 
             turnConfig.absoluteEncoder
