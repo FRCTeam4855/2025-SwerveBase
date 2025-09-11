@@ -24,7 +24,8 @@ public final class Configs {
 
             driveConfig
                 .idleMode(ModuleConstants.kDrivingMotorIdleMode)
-                .smartCurrentLimit(ModuleConstants.kDrivingMotorCurrentLimit);
+                .smartCurrentLimit(ModuleConstants.kDrivingMotorCurrentLimit)
+                .inverted(true);
 
             driveConfig.encoder
                 .positionConversionFactor(drivingFactor)

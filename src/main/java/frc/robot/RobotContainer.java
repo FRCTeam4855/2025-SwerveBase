@@ -43,7 +43,7 @@ public class RobotContainer {
     //private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final LightsSubsystem m_lights = new LightsSubsystem();
     private final Limelight m_limelight = new Limelight();
-    private final SysId m_sysId = new SysId();
+    final SysId m_sysId = new SysId();
    
 
     // The driver's controller
@@ -130,21 +130,16 @@ public class RobotContainer {
         
         // Operator Controls
 
-        m_operatorController1.a()
+        m_operatorController1.y()
             .onTrue(m_sysId.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
         m_operatorController1.x()
             .onTrue(m_sysId.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         m_operatorController1.b()
-            .whileTrue(new RunCommand(
-                () -> m_lights.setLEDs(LightsConstants.VIOLET),
-                m_lights));
+            .onTrue(m_sysId.sysIdDynamic(SysIdRoutine.Direction.kForward));
         m_operatorController1.y()
-            .whileTrue(new RunCommand(
-                () -> m_lights.setLEDs(LightsConstants.GOLD),
-                m_lights));
+            .onTrue(m_sysId.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
 ////    Operator Controls 
- 
 
           }
             /* TODO     

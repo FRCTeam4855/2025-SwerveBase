@@ -61,7 +61,8 @@ public class SysId extends SubsystemBase{
       m_rearTurningRight.configure(Configs.MAXSwerveModule.turnConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
       m_rearTurningLeft.configure(Configs.MAXSwerveModule.turnConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-
+      m_frontDriveRight.configure(Configs.MAXSwerveModule.driveConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters); 
+      m_rearDriveRight.configure(Configs.MAXSwerveModule.driveConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
     
   private final MutVoltage m_appliedVoltage = Volts.mutable(0);

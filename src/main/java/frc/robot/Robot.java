@@ -23,7 +23,7 @@ import frc.robot.subsystems.SysId;
 public class Robot extends TimedRobot {
   
   private Command m_autonomousCommand;
-  private SysId m_sysId = new SysId();
+  //private SysId m_sysId = new SysId();
   private RobotContainer m_robotContainer;
 
   /**
@@ -90,10 +90,10 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    m_sysId.m_frontRightTurningPIDController.setReference(0, ControlType.kPosition);
-    m_sysId.m_frontLeftTurningPIDController.setReference(0, ControlType.kPosition);
-    m_sysId.m_rearRightTurningPIDController.setReference(0, ControlType.kPosition);
-    m_sysId.m_rearLeftTurningPIDController.setReference(0, ControlType.kPosition);
+    m_robotContainer.m_sysId.m_frontRightTurningPIDController.setReference(0, ControlType.kPosition);
+    m_robotContainer.m_sysId.m_frontLeftTurningPIDController.setReference(0, ControlType.kPosition);
+    m_robotContainer.m_sysId.m_rearRightTurningPIDController.setReference(0, ControlType.kPosition);
+    m_robotContainer.m_sysId.m_rearLeftTurningPIDController.setReference(0, ControlType.kPosition);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
