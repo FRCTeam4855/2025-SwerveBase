@@ -136,7 +136,7 @@ public class RobotContainer {
             .onTrue(m_sysId.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         m_operatorController1.b()
             .onTrue(m_sysId.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        m_operatorController1.y()
+        m_operatorController1.a()
             .onTrue(m_sysId.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
 ////    Operator Controls 

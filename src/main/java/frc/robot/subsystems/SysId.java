@@ -69,10 +69,10 @@ public class SysId extends SubsystemBase{
   private final MutDistance m_distance = Meters.mutable(0);
   private final MutLinearVelocity m_velocity = MetersPerSecond.mutable(0);
 
-  public final Velocity<VoltageUnit> m_rampRate = Velocity.ofRelativeUnits(2.0, Volts.per(Second));
+  public final Velocity<VoltageUnit> m_rampRate = Velocity.ofRelativeUnits(4.0, Volts.per(Second));
     private final SysIdRoutine m_sysIdRoutine =
       new SysIdRoutine(
-          new SysIdRoutine.Config(m_rampRate, null, Seconds.of(5.0)),
+          new SysIdRoutine.Config(m_rampRate, null, Seconds.of(3.0)),
           new SysIdRoutine.Mechanism(
               voltage -> {
                 m_frontDriveRight.setVoltage(voltage);
